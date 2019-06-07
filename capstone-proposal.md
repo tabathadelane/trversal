@@ -18,7 +18,8 @@ Allow the user to provide an estimated time to spend at each location.
 Account for this time also for the uer to see.  
 Provide a layout of each day with timestamps so the user can track their day.  
 
-**_"If my plans change, I want to be able to edit times and order of locations."_**
+**_"If my plans change, I want to be able to edit times and order of locations."_**  
+
 **Tasks:**  
 Allow the user to rearrange locations if plans change  
 Build the app so that the route times automatically recalculate with the location above it  
@@ -35,7 +36,7 @@ Allow the user to choose which method
 Create a Model relationship that allows the day/trip to be saved to that user as well
 
 **_"If I am planning the trip, I don't want my friends to be able to change the schedule."_**
-or
+or  
 **_"If we are planning the trip together, I want others to be able contribute to my itenerary."_**
 
 **Tasks:**  
@@ -60,11 +61,14 @@ If the trip is within the forecast range, display weather info to the user
 ### Models:  
 **TRIP**  
 name of trip  
+start date  
 amount of days  
-main city for initial map centering  
+main city for initial map centering?  
 link to user model  
 
 **DAY**  
+which day in the trip  
+start location for each day  
 link one to Trip model for each day  
 
 **LOCATIONS**  
@@ -90,24 +94,24 @@ There are 17 class days left in the course as of 06-06-2019. This is a rough tim
 
 *While I work on the weekends, I would like to prevent burnout and will reserve weekend capstone work for only if I begin to fall behind.*
 
-**Day 1**  
+**Day 1** June 7  
 Research Google maps API with Python  
 Build a basic webpage that loads the map   
 Implement the Directions service with two predetermined waypoints  
 If I can't get this to work with instructor help, find a new API even though it will give me less features in the end.   
 
-**Day 2**  
+**Day 2** June 10  
 Research Vue  
 
-**Day 3**  
+**Day 3** June 11  
 Research Django Vue
 
-**Day 4**  
+**Day 4** June 12  
 Build a basic app with a map view and user panel  
 Allow user input of two locations and calculates route  
 display the timestamps of the start and end time and also travel time  
 
-**Day 5-6**  
+**Day 5-6** June 13-14  
 Make sure Trip, Day and Location models are working and storing information  
 preset multiple locations for one day  
 Make the map API calculate times and display them  
@@ -115,35 +119,35 @@ remove the DirectionsDisplay from showing and add location markers
 or use the multiple WayPoint feature in Google Maps API to display the whole route  
 Make all of this work in Vue  
   
-**Day 7-8**  
+**Day 7-8** June 17-18  
 Allow custom location input from user that updates in Vue with new timestamps  
 Add up and down arrows and a delete feature  
 build a CSS Grid of all the info and buttons  
 add a Stay Duration for each location  
 Add this to the time and display it.   
   
-###### MILESTONE: This is the first very basic working App  
+###### -- MILESTONE: This is the first very basic working App --  
   
-**Day 9-10**  
+**Day 9-10** June 19-20  
 create functionality to add multiple day "cards" to each trip and abilty to arrow between them.   
 With the creation of each day, ask for the first Location (hotel name or airport where you will depasrt each morning)  
   
-**Day 11-12**  
+**Day 11-12** June 21, 24  
 Expand User and create trips outside of Admin account.   
 Add a search for user account to show their trips  
 
-###### MILESTONE: This is my preferred minimum for presentation
+###### -- MILESTONE: This is my preferred minimum for presentation --
 
-**Day 13**
+**Day 13** June 25
 Add a dropdown box for Transportation Method that will change the default in the API  
   
-**Day 14-15**  
+**Day 14-15** June 26-27  
 Allow the addition of other users to each trip  
 implement permissions to allow or block edits from new user  
   
-###### MILESTONE: This is where I'd realistically like to be for presentation  
+######  -- MILESTONE: This is where I'd realistically like to be for presentation --  
   
-**Day 16**  
+**Day 16** June 28  
 Finalize Styling and Layout and plan presentation content  
   
 **Next Milestone**  
@@ -164,7 +168,7 @@ Learn about Push notifications to alert the user when they are falling behind
 
 **Next Milestone**  
 Unknown  
-I feel more feature will present themselves over the course of building the app. 
+I feel more features will present themselves over the course of building the app. 
 
 
 
