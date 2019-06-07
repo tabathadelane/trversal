@@ -1,6 +1,6 @@
 import urllib.request, json
 endpoint = 'https://maps.googleapis.com/maps/api/directions/json?'
-api_key = 'AIzaSyDvoL9sKM0EqZtMQOBCNRDTwTq3rIp53wk'
+api_key = ''
 
 origin = input('Where are you?: ').replace(' ','+')
 destination = input('Where do you want to go?: ').replace(' ','+')
