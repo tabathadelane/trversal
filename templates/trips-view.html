@@ -1,0 +1,17 @@
+<ul>
+    {% for trip in trip_list %}
+      <li><a href="">{{ trip }} -- {{ trip.start_day }}</a></li>
+      <ul>
+        {% for day in trip.day_set.all %}
+          <li>{{ day }}</li>
+          <ul>
+            {% for l in day.location_set.all %}
+              <li>{{ l.name }} -- Staying for 
+              {% if l.duration_hour %}{{ l.duration_hour }}hour {% endif %}
+              {% if l.duration_min %}{{ l.duration_min }}min{% endif %}</li>
+            {% endfor %}
+          </ul>
+        {% endfor %}
+      </ul>
+    {% endfor %}
+  </ul>

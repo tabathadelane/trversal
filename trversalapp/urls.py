@@ -3,5 +3,5 @@ from . import views
 
 app_name = 'trversal' 
 urlpatterns = [
-    path('', views.HomeView, name='home')
+    path('', views.TripListView.as_view(), name='trips')
 ]

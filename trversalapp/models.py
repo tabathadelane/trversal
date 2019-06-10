@@ -22,7 +22,12 @@ class Location(models.Model):
     name = models.TextField(default=" ")
     duration_hour = models.IntegerField(default=1)
     duration_min = models.IntegerField(default=0)
+    route_time = models.TextField(null=True, blank=True)
+    order = models.IntegerField(default=1)
     day = models.ForeignKey("Day", on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ['order']
 
     def __str__(self):
         return self.name
