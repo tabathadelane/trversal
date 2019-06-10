@@ -1,5 +1,3 @@
-
-
 ![alt text](https://github.com/tabathadelane/trversal/blob/master/logo2.png?raw=true "Simplest Logo")
 
 ### Trversal is an itenerary building application.  
