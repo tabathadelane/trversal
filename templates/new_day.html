@@ -1,0 +1,5 @@
+    <form class="new-day" action="" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="new-day-btn" type="submit" value="Add"></button>
+    </form>

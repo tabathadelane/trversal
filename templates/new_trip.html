@@ -1,0 +1,5 @@
+    <form class="new-trip" action="" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="new-trip-btn" type="submit" value="Add">Add</button>
+    </form>
