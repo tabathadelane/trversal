@@ -1,13 +1,19 @@
 <div class="day-detail">
     <h1 class="day-name">{{ day.trip_name.trip_name }}<br></h1>
-    <h2 class="day-text"><a href="">{{ day.trip_name.start_day }}</a></h2>
-    <h2 class="day-text"><a href="">{{ day.start_time }}</a></h2>
+    <h2 class="day-text">{{ day}}</h2>
+    <h2 class="day-text">{{ day.trip_name.start_day }}</h2>
+    <h2 class="day-text">{{ day.start_time }}</h2>
     <ul>
         {% for l in day.location_set.all %}
-        <li>{{ l.name }} -- Staying for 
+        <li><a href="{% url 'trversal:view-loc' l.id %}">{{ l.name }}</a> -- Staying for 
         {% if l.duration_hour %}{{ l.duration_hour }}hour {% endif %}
-        {% if l.duration_min %}{{ l.duration_min }}min{% endif %}</li>
+        {% if l.duration_min %}{{ l.duration_min }}min{% endif %}
+        {% if l.route_time %}Travel Time = {{ l.route_time }}seconds{% endif %}</li>
         {% endfor %}
     </ul>
     <h4 class="day-time"><em>Planned by {{ day.trip_name.creator }}</em></h4>
+    <p><a href="{% url 'trversal:new-loc' day.pk  %}">Add Location</a></p>
+    <p><a href="{% url 'trversal:view-trip' day.trip_name.pk  %}">Back to Trip</a></p>
+    <p><a href="{% url 'trversal:index' %}">All Trips</a></p>
+
 </div>

@@ -8,10 +8,10 @@
       <input id="autocomplete" type="text" placeholder="Enter a location">
       <ul>
       {% for trip in trip_list %}
-        <li><a href="">{{ trip }} -- {{ trip.start_day }}</a></li>
+        <li><a href="{% url 'trversal:view-trip' trip.id %}">{{ trip }} -- {{ trip.start_day }}</a></li>
         <ul>
           {% for day in trip.day_set.all %}
-            <li>{{ day }}</li>
+            <li><a href="{% url 'trversal:view-day' day.pk %}">{{ day }}</a></li>
             <ul>
               {% for l in day.location_set.all %}
                 <li>{{ l.name }} -- Staying for 
@@ -23,6 +23,8 @@
         </ul>
       {% endfor %}
     </ul>
+    <p><a href="{% url 'trversal:new-trip' %}">Plan New Trip</a></p>
+    <p><a href="{% url 'trversal:index' %}">All Trips</a></p>
     <script>
       function init() {
           var input = document.getElementById('autocomplete');

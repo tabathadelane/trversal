@@ -6,4 +6,10 @@
     <h3 class="location-text"><a href="">{{ location.duration_hour }}</a></h3>
     <h3 class="location-text"><a href="">{{ location.duration_min }}</a></h3>
     <h4 class="location-time"><em>Planned by {{ location.day.trip_name.creator }}</em></h4>
+    <p><a href="{% url 'trversal:new-loc' location.day.pk  %}">Add Location</a></p>
+    <p><a href="{% url 'trversal:view-day' location.day.pk  %}">Back to Day</a></p>
+    <p><a href="{% url 'trversal:view-trip' location.day.trip_name.pk  %}">Back to Trip</a></p>
+
+    <p><a href="{% url 'trversal:index' %}">All Trips</a></p>
+
 </div>

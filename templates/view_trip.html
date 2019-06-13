@@ -1,5 +1,16 @@
 <div class="trip-detail">
     <h1 class="trip-name">{{ trip.trip_name }}<br></h1>
-    <h2 class="trip-text"><a href="">{{ trip.start_day }}</a></h2>
+    <ul>
+        {% for d in trip.day_set.all %}
+        <li><h2 class="trip-text"><a href="{% url 'trversal:view-day' d.id %}">{{ d }}</a>
+        </h2>
+        </li>
+        {% endfor %}
+    </ul>
+    
     <h4 class="trip-time"><em>Planned by {{ trip.creator }}</em></h4>
+
+    <p><a href="{% url 'trversal:new-day' trip.pk  %}">Add New Day</a></p>
+    <p><a href="{% url 'trversal:index' %}">All Trips</a></p>
+
 </div>

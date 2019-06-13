@@ -28,9 +28,12 @@ class Day(models.Model):
 
 class Location(models.Model):
     name = models.TextField(default=" ")
-    duration_hour = models.CharField(max_length=20,choices=choices.hour_choices,default=None)
-    duration_min = models.CharField(max_length=20,choices=choices.min_choices,default=None)
+    duration_hour = models.CharField(max_length=20,choices=choices.hour_choices,default=0)
+    duration_min = models.CharField(max_length=20,choices=choices.min_choices,default=0)
     route_time = models.TextField(null=True, blank=True)
+    time_arr = models.TextField(null=True, blank=True)
+    time_leave = models.TextField(null=True, blank=True)
+    
     order = models.IntegerField(default=1)
     day = models.ForeignKey("Day", on_delete=models.CASCADE)
 
