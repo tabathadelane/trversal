@@ -8,15 +8,14 @@
       <input id="autocomplete" type="text" placeholder="Enter a location">
       <ul>
       {% for trip in trip_list %}
-        <li><a href="{% url 'trversal:view-trip' trip.id %}">{{ trip }} -- {{ trip.start_day }}</a></li>
+        <li><a href="{% url 'trversal:view-trip' trip.id %}"><h1>{{ trip }} -- {{ trip.start_day }}</h1></a></li>
         <ul>
           {% for day in trip.day_set.all %}
-            <li><a href="{% url 'trversal:view-day' day.pk %}">{{ day }}</a></li>
+            <li><a href="{% url 'trversal:view-day' day.pk %}"><h2>{{ day }}</h2></a></li>
             <ul>
               {% for l in day.location_set.all %}
-                <li>{{ l.name }} -- Staying for 
-                {% if l.duration_hour %}{{ l.duration_hour }}hour {% endif %}
-                {% if l.duration_min %}{{ l.duration_min }}min{% endif %}</li>
+                <li><h3>{{ l.name }}</h3>
+                {{ l.time_arr }} - {{ l.time_leave }}</li>
               {% endfor %}
             </ul>
           {% endfor %}

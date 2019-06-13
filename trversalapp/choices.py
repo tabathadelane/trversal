@@ -17,10 +17,8 @@ hour_choices = [
 
 min_choices = [
     ("0", 'M'),
-    ("10", '10 minutes'),
-    ("20", '20 minutes'),
+    ("15", '15 minutes'),
     ("30", '30 minutes'),
-    ("40", '40 minutes'),
-    ("50", '50 minutes'),
+    ("45", '45 minutes'),
 
 ]

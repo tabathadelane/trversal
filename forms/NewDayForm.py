@@ -5,4 +5,4 @@ class NewDayForm(forms.ModelForm):
     
     class Meta:
         model = Day
-        fields = ["start_time", "day_date",]
+        fields = ["start_time_hour","start_time_min", "day_date",]

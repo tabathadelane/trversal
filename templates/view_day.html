@@ -7,8 +7,11 @@
         {% for l in day.location_set.all %}
         <li><a href="{% url 'trversal:view-loc' l.id %}">{{ l.name }}</a> -- Staying for 
         {% if l.duration_hour %}{{ l.duration_hour }}hour {% endif %}
-        {% if l.duration_min %}{{ l.duration_min }}min{% endif %}
-        {% if l.route_time %}Travel Time = {{ l.route_time }}seconds{% endif %}</li>
+        {% if l.duration_min %}{{ l.duration_min }}min{% endif %}<br>
+        Arrive at -- {{ l.time_arr }}<br>
+        Leave By -- {{ l.time_leave }}
+        </li>
+
         {% endfor %}
     </ul>
     <h4 class="day-time"><em>Planned by {{ day.trip_name.creator }}</em></h4>

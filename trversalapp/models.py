@@ -16,7 +16,8 @@ class Trip(models.Model):
         return reverse('trversal:view-trip', args=[str(self.id)])
 
 class Day(models.Model):
-    start_time = models.TimeField(default="9:00 AM")
+    start_time_hour = models.CharField(max_length=20,choices=choices.hour_choices,default=9)
+    start_time_min = models.CharField(max_length=20,choices=choices.min_choices,default=0)
     day_date = models.IntegerField(default=1)
     trip_name = models.ForeignKey("Trip", on_delete=models.CASCADE)
 
