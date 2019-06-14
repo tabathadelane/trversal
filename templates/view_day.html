@@ -1,15 +1,17 @@
 <div class="day-detail">
-    <h1 class="day-name">{{ day.trip_name.trip_name }}<br></h1>
-    <h2 class="day-text">{{ day}}</h2>
-    <h2 class="day-text">{{ day.trip_name.start_day }}</h2>
-    <h2 class="day-text">{{ day.start_time }}</h2>
+    <h1 class="day-name">{{ day.trip_name.name }}<br></h1>
+    <h2 class="day-name">{{ day }}</h2>
+    <h2 class="day-date">{{ day.day_date|date:"D , F d " }}</h2>
+    <h2 class="day-start">{{ day.start_time|date:"g:i A " }}</h2>
     <ul>
         {% for l in day.location_set.all %}
-        <li><a href="{% url 'trversal:view-loc' l.id %}">{{ l.name }}</a> -- Staying for 
+        <li><a href="{% url 'trversal:view-loc' l.id %}">{{ l.name }}</a> 
+        {% comment %} -- Staying for 
         {% if l.duration_hour %}{{ l.duration_hour }}hour {% endif %}
-        {% if l.duration_min %}{{ l.duration_min }}min{% endif %}<br>
-        Arrive at -- {{ l.time_arr }}<br>
-        Leave By -- {{ l.time_leave }}
+        {% if l.duration_min %}{{ l.duration_min }}min{% endif %}<br>{% endcomment %}
+        <br>
+        Arrive at -- {{ l.time_arr }}<br> 
+        Leave by -- {{ l.time_leave }}
         </li>
 
         {% endfor %}

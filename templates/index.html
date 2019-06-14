@@ -1,17 +1,23 @@
 
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
+      <link rel="shortcut icon" href="{%  static 'favicon.ico' %}">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+      <link rel="stylesheet" href="{% static 'css/base.css' %}">
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDs27HLOoV6keN4f7cGfspYlJc5HSdEl78&libraries=places"></script>
     </head>
     <body>
       <input id="autocomplete" type="text" placeholder="Enter a location">
       <ul>
       {% for trip in trip_list %}
-        <li><a href="{% url 'trversal:view-trip' trip.id %}"><h1>{{ trip }} -- {{ trip.start_day }}</h1></a></li>
+        <li><a href="{% url 'trversal:view-trip' trip.id %}"><h1>{{ trip }} </h1></a></li>
         <ul>
           {% for day in trip.day_set.all %}
-            <li><a href="{% url 'trversal:view-day' day.pk %}"><h2>{{ day }}</h2></a></li>
+            <li><a href="{% url 'trversal:view-day' day.pk %}"><h2>{{ day.day_date|date:"l -- F d " }} -- {{ day.start_time|date:"g:i A " }}</h2></a></li>
             <ul>
               {% for l in day.location_set.all %}
                 <li><h3>{{ l.name }}</h3>
