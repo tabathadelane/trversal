@@ -1,6 +1,22 @@
+{% extends 'base.html' %}
+
+{% block body %}
 <h1>Edit Trip</h1>
-  <form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Update">
-  </form>
+<form action="" method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" value="Update">
+</form>
+<ul>
+{% for day in trip.days.all %}
+  <li><a href="{% url 'trversal:view-day' day.pk %}"><h2>{{ day }} -- {{ day.day_date|date:"l -- F d " }}</h2></a>
+  <a href="{% url 'trversal:view-day' day.pk %}"><button>Edit</button></a>
+  <a href="{% url 'trversal:del-day' day.pk %}"><button>Delete</button></a>
+  </li>
+{% endfor %}
+  <li><a href="{% url 'trversal:new-day' trip.pk %}"><button>+Add Day</button></a></li>
+</ul>
+<a href="{% url 'trversal:view-trip' trip.pk %}"><button>Back to Trip</button></a>
+<a href="{% url 'trversal:del-trip' trip.pk %}"><button>Delete Trip</button></a>
+
+{% endblock %}

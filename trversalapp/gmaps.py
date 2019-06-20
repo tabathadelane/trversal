@@ -7,10 +7,10 @@ from .models import Trip, Day, Location
 # look into UniqueConstraint in meta class in model to tell django that you can only have days and orders so that day order pairs can be unique
 
 # thistrip = Trip.objects.get(pk=1)
-# day = thistrip.day_set.get(pk=1)
+# day = thistrip.days.get(pk=1)
 def time_gen(day):
     format = "%I:%M %p"
-    locations = day.location_set.all()
+    locations = day.locs.all()
     location_list = [l.g_name for l in locations]
     if locations:
       # hour = int(locations[0].day.start_time_hour)
@@ -21,7 +21,7 @@ def time_gen(day):
       locations[0].save()
 
       for l in range(len(locations)-1):
-        print(locations[l].duration_hour)
+        # print(locations[l].duration_hour)
         origin = locations[l].g_name
         destination = locations[l+1].g_name
         route = gmaps_time(origin, destination)
@@ -31,12 +31,12 @@ def time_gen(day):
       for l in range (len(locations)):
         arrive = clock + dt.timedelta(seconds=locations[l].route_time)
         leave = arrive + dt.timedelta(hours =int(locations[l].duration_hour), minutes = int(locations[l].duration_min))
-        print(arrive.strftime(format), leave.strftime(format))
+        # print(arrive.strftime(format), leave.strftime(format))
         locations[l].time_arr = arrive.strftime(format)
         locations[l].time_leave = leave.strftime(format)
         locations[l].save()
         clock = leave
-        print(clock.strftime(format))
+        # print(clock.strftime(format))
       return location_list
     else: 
       pass

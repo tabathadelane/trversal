@@ -1,7 +1,7 @@
 <div class="trip-detail">
-    <h1 class="trip-name">{{ trip.trip_name }}<br></h1>
+    <h1 class="trip-name">{{ trip.name }}<br></h1>
     <ul>
-        {% for d in trip.day_set.all %}
+        {% for d in trip.days.all %}
         <li><h2 class="trip-text"><a href="{% url 'trversal:view-day' d.id %}">{{ d }}</a>
         </h2>
         </li>

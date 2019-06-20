@@ -33,12 +33,13 @@ class TripUpdateView(UpdateView):
 
 class TripDetailView(DetailView):
     model = Trip
-    template_name = 'view_trip.html'
+    # template_name = 'view_trip.html'
+    template_name = 'vue_trip.html'
 
 class TripDeleteView(DeleteView):
     model = Trip
     template_name = 'del_trip.html'
-    success_url = reverse_lazy('trversal:index')
+    success_url = reverse_lazy('trversal:view-day')
 
 class DayCreateView(CreateView):
     model = Day
@@ -56,7 +57,13 @@ class DayUpdateView(UpdateView):
 
 class DayDetailView(DetailView):
     model = Day
-    template_name = 'view_day.html'
+    # template_name = 'view_day.html'
+    template_name = 'vue_day_form.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = forms.NewLocForm
+        return context
 
     def get_object(self):
         day = super().get_object()
@@ -83,14 +90,21 @@ class LocCreateView(CreateView):
     model = Location
     template_name = 'new_loc.html'
     form_class= forms.NewLocForm
-    # success_url = reverse_lazy('trversal:view-loc')
+
+    def get_success_url(self):
+
+      return reverse_lazy('trversal:view-day', args=(self.kwargs["pk"],))
 
 
 
     def form_valid(self, form):
-        form.instance.day = Day.objects.get(pk=self.kwargs["pk"])
+        form_day = Day.objects.get(pk=self.kwargs["pk"])
+        form.instance.day = form_day
+        # form.instance.day = Day.objects.get(pk=self.kwargs["pk"])
         form.instance.name = form.instance.g_name.split(",")[0]
+        form.instance.order = form_day.locs.count() + 1
         return super().form_valid(form)
+
 
 class LocUpdateView(UpdateView):
     model = Location
@@ -104,15 +118,12 @@ class LocDetailView(DetailView):
 class LocDeleteView(DeleteView):
     model = Location
     template_name = 'del_loc.html'
-    success_url = reverse_lazy('trversal:view-day')
+    # success_url = reverse_lazy('trversal:view-day')
 
-# def tripAPIdetail(request, pk):
-#     trip = Trip.objects.filter(pk=pk)
-#     json = serializers.serialize("json", trip)
-#     print(json)
-#     x = [item.day_set.all() for item in trip]
-#     print(x)
-#     return HttpResponse(json, content_type="application/json" )
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('trversal:view-day', args=(self.object.day.id,))
+        
+
 
 
 

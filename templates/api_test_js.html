@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+      <link rel="shortcut icon" href="{%  static 'favicon.ico' %}">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDs27HLOoV6keN4f7cGfspYlJc5HSdEl78&libraries=places"></script>
+    </head>
+    <body>
+        <input type="text" id="autocomplete"/>
+        <div id="test">
+        {% csrf_token %}
+        </div>
+
+
+<script>
+
+    function init() {
+          var input = document.getElementById('autocomplete');
+          var autocomplete = new google.maps.places.Autocomplete(input);
+      }
+
+      google.maps.event.addDomListener(window, 'load', init);
+
+    const div = document.getElementById('test');
+    const url = 'http://localhost:8000/api/trips/1/?format=json';
+    fetch(url)
+    .then((response) => response.json())
+    .then(function(data) {
+        console.log(data)
+        let i=0
+        let p = document.createElement("p")
+        p.innerText = data.name
+        div.append(p)
+        data.days.forEach(function(){
+            let p = document.createElement("p")
+            p.innerText = data.days[i].day_date
+            div.append(p)
+            let ul=  document.createElement("ul")
+            div.append(ul)
+            let j = 0
+            data.days[i].locs.forEach(function(){
+                let li = document.createElement("li")
+                li.innerText = data.days[i].locs[j].name
+                div.append(li)
+                j++
+            })
+            i++
+        })
+        {% comment %} data.forEach(function(){
+            
+            console.log(data.name)
+            let p = document.createElement("p");
+            p.innerText = `${data[i].name}`;
+            let btn = document.createElement("button");
+            btn.innerText = "Down"
+            btn.id = data[i].order; 
+            btn.addEventListener("click", moveUp(){
+                id = this.id
+                idDown = id++
+                if (document.getElementById(:idDown)):
+
+            })    
+            div.append(p);  
+            div.append(btn);  
+            i++
+        }) {% endcomment %}
+    })
+     .catch(function(error) {
+    console.log(error);
+  });   
+ 
+  {% comment %} fetch('http://localhost:8000/test2/`${pk}`', {
+  headers: { "Content-Type": "application/json; charset=utf-8" },
+  method: 'PUT',
+  body: JSON.stringify({
+    g_name = document.getElementById('autocomplete')
+  })
+}) {% endcomment %}
+</script> 

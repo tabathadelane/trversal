@@ -1,5 +1,6 @@
 from django.db import models
-from django.urls import reverse
+
+from django.urls import reverse, reverse_lazy
 
 from . import choices
 
@@ -19,7 +20,9 @@ class Day(models.Model):
     start_time = models.TimeField(max_length=20,default="9:00 AM")
     day_order = models.IntegerField(default=1)
     day_date = models.DateField(null=True, blank=True)
-    trip_name = models.ForeignKey("Trip", on_delete=models.CASCADE)
+    trip_name = models.ForeignKey("Trip", related_name="days", on_delete=models.CASCADE)
+
+    
 
     def __str__(self):
         return (f'Day {self.day_order}')
@@ -37,7 +40,7 @@ class Location(models.Model):
     time_leave = models.TextField(null=True, blank=True)
     
     order = models.IntegerField(default=1)
-    day = models.ForeignKey("Day", on_delete=models.CASCADE)
+    day = models.ForeignKey("Day", related_name="locs", on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['order']
@@ -47,3 +50,8 @@ class Location(models.Model):
 
     def get_absolute_url(self):
         return reverse('trversal:view-loc', args=[str(self.id)])
+
+    
+    # def delete(self, request, *args, **kwargs):
+    #     self.day_pk = self.get_object().day.pk
+    #     return super(LocDeleteView, self).delete(request, *args, **kwargs)

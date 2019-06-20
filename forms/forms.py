@@ -25,4 +25,4 @@ class NewLocForm(forms.ModelForm):
 
     class Meta:
         model = Location
-        fields = ["g_name", "duration_hour", "duration_min", "order",]
+        fields = ["g_name", "duration_hour", "duration_min"]

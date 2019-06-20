@@ -11,15 +11,15 @@
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDs27HLOoV6keN4f7cGfspYlJc5HSdEl78&libraries=places"></script>
     </head>
     <body>
-      <input id="autocomplete" type="text" placeholder="Enter a location">
+      <img src="{%  static 'logo-192x192.png' %}" height="40">Trversal
       <ul>
       {% for trip in trip_list %}
         <li><a href="{% url 'trversal:view-trip' trip.id %}"><h1>{{ trip }} </h1></a></li>
         <ul>
-          {% for day in trip.day_set.all %}
+          {% for day in trip.days.all %}
             <li><a href="{% url 'trversal:view-day' day.pk %}"><h2>{{ day.day_date|date:"l -- F d " }} -- {{ day.start_time|date:"g:i A " }}</h2></a></li>
             <ul>
-              {% for l in day.location_set.all %}
+              {% for l in day.locs.all %}
                 <li><h3>{{ l.name }}</h3>
                 {{ l.time_arr }} - {{ l.time_leave }}</li>
               {% endfor %}

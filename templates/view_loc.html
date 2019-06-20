@@ -1,3 +1,6 @@
+{% extends 'base.html' %}
+
+{% block body %}
 <div class="location-detail">
     <h1 class="location-name">{{ location.day.trip_name.name }}<br></h1>
     <h2 class="location-text"><a href="">{{ location.day }}</a></h2>
@@ -12,3 +15,4 @@
     <p><a href="{% url 'trversal:index' %}">All Trips</a></p>
 
 </div>
+{% endblock %}

@@ -1,6 +1,10 @@
+{% extends 'base.html' %}
+
+{% block body %}
 <h1>Delete Location</h1>
   <form action="" method="post">
     {% csrf_token %}
     <p>Are you sure you want to delete "{{ location.name }} on {{ location.day }} of {{ location.day.trip_name.trip_name }}"?</p>
     <input type="submit" value="Confirm">
   </form>
+{% endblock %}

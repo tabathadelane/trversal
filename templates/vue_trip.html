@@ -1,0 +1,232 @@
+{% extends 'base.html' %}
+
+{% block body %}
+      <div id="trip-name">{{ trip.name }}
+      </div>
+      <div id="map" style="height:400px"></div>
+      <p id="test"></p>
+
+      <div id="hidden-pk">{{ trip.pk }}</div>
+      <div id="app">
+        <div id="trip-date">[[ day.day_date ]]
+        </div>
+        <div id="loc-panel">
+          <ul id="loc">
+            <li v-for="(l, i) in day.locs">
+                [[ l.name ]] [[ l.time_arr ]] -- [[ l.time_leave ]]
+                <button v-on:click="up(l, l.pk, day.locs[i-1])">Up</button>
+                <button v-on:click="down(l, l.pk, day.locs[i+1])">Down</button>
+            </li>
+          </ul>
+          <button v-on:click="previous(day)">Previous</button>
+          <button v-on:click="next(day)">Next</button><br>
+         <a href="{% url 'trversal:edit-trip' trip.pk %}"><button>Edit Trip</button></a>
+         <a href="{% url 'trversal:index' %}"><button>Back to Trips</button></a>
+        </div>
+      </div>
+{% endblock %}
+{% block js %}
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDs27HLOoV6keN4f7cGfspYlJc5HSdEl78"></script>
+    <script>
+      let tripPk = document.getElementById("hidden-pk").innerText
+      function getCookie(name) {
+              var cookieValue = null;
+              if (document.cookie && document.cookie !== '') {
+                  var cookies = document.cookie.split(';');
+                  for (var i = 0; i < cookies.length; i++) {
+                      var cookie = cookies[i].trim();
+                      // Does this cookie string begin with the name we want?
+                      if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                          break;
+                      }
+                  }
+              }
+              return cookieValue;
+              }
+      var map;
+      var directionsService;
+      var directionsDisplay;
+      function initMap() {
+        console.log("hello");
+        directionsService = new google.maps.DirectionsService();
+        directionsDisplay = new google.maps.DirectionsRenderer({map: map, suppressMarkers: true});
+        var chicago = new google.maps.LatLng(41.850033, -87.6500523);
+        var mapOptions = {
+          zoom:7,
+          center: chicago
+        }
+        var iconBase = '/static/favicon.ico';
+        var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+        directionsDisplay.setMap(map);
+        calcRoute()
+
+      }
+      
+      var waypts = [{location: "salem, or", stopover: true}, {location: "eugene, or", stopover: true}, {location: "medford, or", stopover: true}, ]
+
+      function calcRoute() {
+        console.log("2");
+        var start = "portland, or";
+        var end = "san francisco, ca";
+        var request = {
+          origin: start,
+          destination: end,
+          travelMode: 'DRIVING',
+          waypoints: waypts,
+        };
+        directionsService.route(request, function(result, status) {
+          if (status == 'OK') {
+            directionsDisplay.setDirections(result);
+            for (var i = 0; i < waypts.length; i++) {
+              var marker = new google.maps.Marker({
+                position: waypts[i].position,
+                icon: 'static/favicon.ico',
+                map: map
+          }
+        );
+      }
+          }})
+      };
+
+      
+      let app = new Vue({
+        el: '#app',
+        delimiters: ['[[', ']]'],
+        data: {
+          trip: {},
+          day: {},
+        
+        
+        },
+        methods: {
+          up: function(l,pk, m){
+            loc1 = {
+              "pk": l.pk,
+              "order": (l.order - 1),
+              "day": l.day,
+              "name": l.name,
+              "time_arr": l.time_arr,
+              "time_leave": l.time_leave,
+              "url": l.url
+            }
+            loc2 = {
+              "pk": m.pk,
+              "order": (m.order + 1),
+              "day": m.day,
+              "name": m.name,
+              "time_arr": m.time_arr,
+              "time_leave": m.time_leave,
+              "url": m.url
+            }
+            console.log(loc1.order, loc2.order)
+            
+            var csrftoken = getCookie('csrftoken');
+            console.log(loc2)
+            fetch(`http://localhost:8000/api/locs/${l.pk}/`, {
+              method: "PUT",
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken' : csrftoken
+              },
+              body: JSON.stringify(loc1)
+
+            })
+            .then(x => 
+            fetch(`http://localhost:8000/api/locs/${m.pk}/`, {
+              method: "PUT",
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken' : csrftoken
+              },
+              body: JSON.stringify(loc2)
+            })
+            )
+            .then(x => 
+            fetch(`http://localhost:8000/api/recalc/days/${l.day}/?format=json`)
+            .then((response) => response.json())
+            .then((response) => this.day = response)
+        
+            )
+          }, 
+          down: function(l,pk, m){
+            loc1 = {
+              "pk": l.pk,
+              "order": (l.order + 1),
+              "day": l.day,
+              "name": l.name,
+              "time_arr": l.time_arr,
+              "time_leave": l.time_leave,
+              "url": l.url
+            }
+            loc2 = {
+              "pk": m.pk,
+              "order": (m.order - 1),
+              "day": m.day,
+              "name": m.name,
+              "time_arr": m.time_arr,
+              "time_leave": m.time_leave,
+              "url": m.url
+            }
+            
+            var csrftoken = getCookie('csrftoken');
+            fetch(`http://localhost:8000/api/locs/${l.pk}/`, {
+              method: "PUT",
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken' : csrftoken
+              },
+              body: JSON.stringify(loc1)
+
+            })
+            .then(x => 
+            fetch(`http://localhost:8000/api/locs/${m.pk}/`, {
+              method: "PUT",
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken' : csrftoken
+              },
+              body: JSON.stringify(loc2)
+            })
+            )
+            .then(x => 
+            fetch(`http://localhost:8000/api/recalc/days/${l.day}/?format=json`)
+            .then((response) => response.json())
+            .then((response) => this.day = response)
+        
+            )
+          },
+          next: function(day){
+            let i = this.trip.days.indexOf(day)
+            if (this.trip.days.length - 1 > i)
+              i++
+                fetch(`http://localhost:8000/api/trips/${tripPk}/?format=json`)              
+                .then((response) => response.json())
+                .then((response) => this.trip = response)
+                .then(response => this.day = this.trip.days[i])
+          },
+          previous: function(day){
+          let i = this.trip.days.indexOf(day)
+          if (i > 0)
+            i--
+            fetch(`http://localhost:8000/api/trips/${tripPk}/?format=json`)              
+            .then((response) => response.json())
+            .then((response) => this.trip = response)
+            .then(response => this.day = this.trip.days[i])
+          }
+        },
+        mounted: function(){
+          fetch(`http://localhost:8000/api/trips/${tripPk}/?format=json`)
+          .then((response) => response.json())
+          .then((response) => this.trip = response)
+          .then(response => this.day = this.trip.days[0])
+      
+          
+        }
+      })
+
+ 
+    initMap()
+    </script>
+{% endblock %}

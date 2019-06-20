@@ -4,7 +4,7 @@
     <h2 class="day-date">{{ day.day_date|date:"D , F d " }}</h2>
     <h2 class="day-start">{{ day.start_time|date:"g:i A " }}</h2>
     <ul>
-        {% for l in day.location_set.all %}
+        {% for l in day.locs.all %}
         <li><a href="{% url 'trversal:view-loc' l.id %}">{{ l.name }}</a> 
         {% comment %} -- Staying for 
         {% if l.duration_hour %}{{ l.duration_hour }}hour {% endif %}

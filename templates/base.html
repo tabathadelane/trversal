@@ -1,0 +1,20 @@
+ {% load static %}
+
+  <!DOCTYPE html>
+<html>
+    <head>
+      <link rel="shortcut icon" href="{%  static 'favicon.ico' %}">
+      {% block head %}
+      {% endblock %}
+    </head>
+    <body>
+      <h1>TRVERSAL</h1>
+      <p><a href="">My Trips</a></p>
+      <p><a href="">Logout</a></p>
+      {% block body %}
+      {% endblock %}
+    </body>
+      {% block js %}
+      {% endblock %}
+  </html>
+

@@ -1,5 +1,9 @@
-    <form class="new-day" action="" method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button class="new-day-btn" type="submit" value="Add">Add</button>
-    </form>
+{% extends 'base.html' %}
+
+{% block body %}
+  <form class="new-day" action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="new-day-btn" type="submit" value="Add">Add</button>
+  </form>
+{% endblock %}
