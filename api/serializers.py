@@ -8,7 +8,7 @@ from rest_framework import serializers
 class LocSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
-        fields = ('pk', 'order', 'day', 'name', 'time_arr', 'time_leave', 'url'  )
+        fields = ('pk', 'order', 'day', 'name', 'g_name', 'time_arr', 'time_leave', 'url'  )
 
 class DaySerializer(serializers.ModelSerializer):
     locs = LocSerializer(many=True)

@@ -6,7 +6,10 @@
 {% block body %}
   <div id="trip-name">{{ day.trip_name.name }}
   </div>
-  <div id="hidden-pk">{{ day.trip_name.pk }}</div>
+  <div id="map" style="height:400px"></div>
+
+  <div id="hidden-trip">{{ day.trip_name.pk }}</div>
+  <div id="hiddenDay">{{ day.day_order }}</div>
 
   <div id="app">
     <div id="trip-date">[[ day.day_date ]]
@@ -32,6 +35,8 @@
 {% block js %}
 
 <script src="https://unpkg.com/vue"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDs27HLOoV6keN4f7cGfspYlJc5HSdEl78&markers=icon:static/favicon.ico"></script>
+
 <script>
 
   function init() {
@@ -41,7 +46,8 @@
 
   google.maps.event.addDomListener(window, 'load', init);
 
-  tripPk = document.getElementById("hidden-pk").innerText
+  let tripPk = document.getElementById("hidden-trip").innerText
+  let dayPk = document.getElementById("hiddenDay").innerText
   function getCookie(name) {
           var cookieValue = null;
           if (document.cookie && document.cookie !== '') {
@@ -57,6 +63,61 @@
           }
           return cookieValue;
           }
+  var map;
+  var directionsService;
+  var directionsDisplay;
+  var markers = [];
+  function initMap() {
+    directionsService = new google.maps.DirectionsService();
+    directionsDisplay = new google.maps.DirectionsRenderer({map: map, });
+    var chicago = new google.maps.LatLng(41.850033, -87.6500523);
+    var mapOptions = {
+      zoom:7,
+      center: chicago
+    }
+    var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    directionsDisplay.setMap(map);
+
+  }
+
+  function calcRoute(day) {
+    let locsArr = [];
+    let waypts = []
+    var i;
+    for (i = 0; i < day.locs.length; i++){
+      locsArr.push(day.locs[i].g_name)
+      console.log(day.locs[i].g_name)
+    }
+    
+    var start = locsArr.shift();
+    var end = locsArr.pop();
+    for (i = 0; i < locsArr.length; i++){
+        waypts.push({location: locsArr[i], stopover: true})
+    }
+
+    var request = {
+      origin: start,
+      destination: end,
+      travelMode: 'DRIVING',
+      waypoints: waypts,
+    };
+    console.log(JSON.parse(JSON.stringify(app.day)))
+    directionsService.route(request, function(result, status) {
+      if (status == 'OK') {
+        directionsDisplay.setDirections(result);
+        for (var i = 0; i < waypts.length; i++) {
+          markers.push(new google.maps.Marker({
+            animation: google.maps.Animation.DROP,
+            position: waypts[i].location,
+            map: map,
+            icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+            }));
+        }
+    
+      }
+      })
+  };
+
   
   let app = new Vue({
     el: '#app',
@@ -74,6 +135,7 @@
           "order": (l.order - 1),
           "day": l.day,
           "name": l.name,
+          "g_name": l.g_name,
           "time_arr": l.time_arr,
           "time_leave": l.time_leave,
           "url": l.url
@@ -83,11 +145,11 @@
           "order": (m.order + 1),
           "day": m.day,
           "name": m.name,
+          "g_name": l.g_name,
           "time_arr": m.time_arr,
           "time_leave": m.time_leave,
           "url": m.url
         }
-        console.log(loc1.order, loc2.order)
         
         var csrftoken = getCookie('csrftoken');
         console.log(loc2)
@@ -114,7 +176,7 @@
         fetch(`http://localhost:8000/api/recalc/days/${l.day}/?format=json`)
         .then((response) => response.json())
         .then((response) => this.day = response)
-    
+        .then((response) => calcRoute(this.day))
         )
       }, 
       down: function(l,pk, m){
@@ -161,6 +223,7 @@
         fetch(`http://localhost:8000/api/recalc/days/${l.day}/?format=json`)
         .then((response) => response.json())
         .then((response) => this.day = response)
+        .then((response) => calcRoute(this.day))
     
         )
       },
@@ -168,13 +231,21 @@
     mounted: function(){
       fetch(`http://localhost:8000/api/trips/${tripPk}/?format=json`)
       .then((response) => response.json())
-      .then((response) => this.trip = response)
-      .then(response => this.day = this.trip.days[0])
-  
-      
+      .then((response) =>{
+        this.trip = response;
+        let dayPk = document.getElementById("hiddenDay").innerText;
+        dayPk--
+        console.log(dayPk);
+
+        this.day = response.days[dayPk]
+        ;
+        return response;
+      })
+      .then(response => {
+        initMap();
+        calcRoute(this.day);
+      })
     }
   })
-
-
 </script>
 {% endblock %}
