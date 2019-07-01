@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block head %}
+  <title>Plan A New Trip</title>
+{% endblock %}
+
 {% block body %}
   <form class="new-trip" action="" method="post">
     {% csrf_token %}

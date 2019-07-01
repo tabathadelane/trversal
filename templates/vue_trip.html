@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block head %}
+  <title>{{ trip.name }}</title>
+{% endblock %}
+
 {% block body %}
     <div class="trip">
       <div class="map-block">

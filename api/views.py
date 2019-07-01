@@ -41,12 +41,6 @@ class ReCalcDay(generics.RetrieveAPIView):
     queryset = Day.objects.all()
     serializer_class = DaySerializer
 
-    # def get_object(self):
-    #     obj = super().get_object()
-    #     gmaps.date_setter(obj)
-    #     gmaps.time_gen(obj)
-    #     return obj
-
     def dispatch(self, request, *args, **kwargs):
 
         day = Day.objects.get(pk=self.kwargs["pk"])

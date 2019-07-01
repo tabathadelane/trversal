@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block head %}
+  <title> Edit {{ Day }}</title>
+{% endblock %}
+
 {% block body %}
 
 {% if user == day.trip_name.creator %}
