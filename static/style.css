@@ -1,0 +1,614 @@
+*{
+    margin-block-end: 0;
+    margin-block-start: 0;
+    font-family: 'Open Sans', sans-serif;
+    /* text-decoration: none; */
+}
+body{
+    margin: 0;
+    background-color: rgb(248, 255, 252);
+}
+.landing-links{
+    margin: auto;
+    padding-top: 10px;
+    width: 95vw;
+    display: flex;
+    justify-content: space-between;
+}
+.landing-links a{
+    color: white;
+}
+.landing-body{
+    background-image: linear-gradient(to bottom right, #50b7e7, #94d684);
+    height: 100vh;
+
+}
+.landing-main{
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.landing-main .title{
+    font-size: 120px;
+    font-weight: 900;
+    
+}
+.landing-main .logo-img{
+    height: 100px;
+    animation: bounce 2s infinite;
+    
+}
+.landing-main .logo{
+    margin-top:-150px;
+    height: 100px;
+    text-align: center;    
+}
+a {
+    color: rgb(93, 219, 202);
+}
+a:hover{
+    color: rgb(93, 219, 104);
+
+}
+.header a{
+    color: white;
+    
+}
+.header a:hover{
+    color: grey;
+
+}
+h1 {
+    margin-top: 20px;
+}
+form p{
+    margin-top: 20px;
+}
+input, select {
+    color: rgb(10, 109, 92);
+    border-radius: 5px;
+    background-color: rgb(226, 225, 225);
+    border: none;
+    height: 25px;
+    text-indent: 10px;
+    outline: none;
+    
+}
+input[type=submit], .btn{
+    background-color: rgb(93, 219, 202);
+    color: black;
+    border: none;
+    border-radius: 3px;
+    margin-top: 40px;
+    text-indent: 0px;
+    height: 25px;
+    box-shadow: 1px 1px 3px rgb(44, 138, 99), 0 1px 2px rgb(44, 138, 99);
+    
+}
+.btn2{
+    background-color:  rgb(93, 219, 202);
+    color: black;
+    border: none;
+    border-radius: 3px;
+    height: 25px;
+    box-shadow: 1px 1px 3px rgb(44, 138, 99), 0 1px 2px rgb(44, 138, 99);
+
+}
+.edit-title{
+    text-align: center;
+    margin-top: 50px;
+}
+
+ol {
+    list-style-type: upper-alpha;
+    padding: 0;
+}
+ul{
+    padding-inline-start:0;
+    list-style-type: none;
+}
+.btn-icon{
+    color: rgb(10, 109, 92);
+    background-color: rgb(93, 219, 202);
+    border-radius: 3px;
+    padding: 0px 6px;
+    margin: 2px;
+    justify-self: end;
+    border: none;
+    box-shadow: 1px 1px 3px rgb(44, 138, 99), 0 1px 2px rgb(44, 138, 99);
+
+    
+}
+.btn-icon2{
+    color: rgb(10, 109, 92);
+    
+}
+.btn-icon2{
+    justify-self: end;
+    background: none;
+    border: none;
+}
+.btn-icon2:hover  {
+    color: rgb(93, 219, 104);
+}
+
+.btn-icon:hover{
+    color: rgb(227, 233, 236);
+    
+}
+#directions{
+
+}
+.day-2-day{
+    display: inline;
+
+}
+
+
+.container{
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    grid-template-rows: 70px 1fr;
+    grid-template-areas:  
+    " head head "
+    " cont cont ";
+}
+
+.header{
+    grid-area: head;
+    text-align: center;
+    background-color: turquoise;
+    color: white;
+    background-image: linear-gradient(to bottom right, #09aaf5, #7cd865);
+    box-shadow: 
+    /* inset 0px 11px 8px -10px rgb(101, 136, 122),
+    inset 0px -11px 8px -10px  rgb(101, 136, 122),
+    -5px 2px 8px 1px rgb(70, 94, 84),
+    5px 0px 8px 1px rgb(70, 94, 84); */
+    z-index:20;
+    display: grid;
+    grid-template-columns: 1fr 300px 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas:  
+    " user logo login "
+    
+    
+}
+.title{
+    display: inline;
+    font-size: 50px;
+    font-weight: 600;
+    color: rgb(247, 255, 252);
+    text-shadow: 1px 1px 2px grey;
+}
+.logo-img{
+    height: 40px;
+    filter: drop-shadow(1px 1px 2px grey);
+    margin-left: -10px;
+}
+.logo{
+    grid-area: logo;
+    
+}
+.home {
+    text-decoration: none;
+}
+.login{
+    text-align: right;
+    grid-area: login;
+    justify-self: end;
+    align-self: flex-start;
+    margin: 10px;
+    
+}
+.user{
+    text-align: left;
+    grid-area: user;
+    justify-self: start;
+    align-self: flex-start;
+    margin: 10px;
+    
+}
+
+.content{
+    grid-area: cont;
+    padding-left: 10px;
+}
+.trip-header{
+    width:90%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 150px 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: 
+    " date date date "
+    " l day r "
+
+}
+#trip-name{
+    text-align: center;
+    color: rgb(47, 201, 180);
+    font-size: 28px;
+    font-weight: 700;
+    margin:10px 0 0px;
+}
+.day-date{
+    text-align: center;
+    color: rgb(10, 109, 92);
+    font-size: 18px;
+    font-weight: 700;
+    margin:0;
+}
+#trip-day{
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+    grid-area: day;
+    width:100%;
+    justify-self: center;
+    background-color: rgb(227, 233, 236);
+    color: rgb(10, 109, 92);
+}
+#trip-date{
+    text-align: center;
+    grid-area: date;
+    justify-self: center;
+    margin-top: 5px;
+}
+.next{
+    grid-area: r;
+    justify-self: left;
+}
+.prev{
+    grid-area: l;
+    justify-self: right;
+}
+.next, .prev{
+    background: none;
+    color: rgb(10, 109, 92);
+    border: 2px solid turquoise;
+    border-radius: 3px;
+
+}
+
+.next:hover, .prev:hover{
+    background-color: rgb(227, 233, 236);
+
+}
+
+#hidden-pk, #hidden-trip, #hiddenDay {
+    display: none;
+}
+#no-days{
+    text-align: center;
+    justify-self: center;
+    align-items: center;
+
+}
+.trip{
+    display: grid;
+    grid-template-columns: 425px 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas:  
+        " panel-t map "
+        ;
+}
+
+.panel-trip{
+    grid-area: panel-t;
+    text-align: center;
+    background-color: rgb(247, 255, 252);
+    box-shadow: 
+        11px 0px 8px -10px rgb(101, 136, 122);
+    z-index:10;
+    
+    
+}
+.day{
+    display: grid;
+    grid-template-columns: 450px 1fr;
+    grid-template-rows: 70px 100px 400px;
+    grid-template-areas:  
+    " title map "
+    " form-d map "
+    " panel-d map "
+    ;
+}
+.day-title{
+    grid-area: title;
+}
+.panel-trip  #loc{
+    height: 475px;
+}
+.loc-panel{
+    height: 400px;
+}
+#loc{
+    height: 425px;
+    overflow: auto;
+    margin: 10px 0;
+    padding-top: 5px;
+}
+.panel-day{
+    grid-area: panel-d;
+    box-shadow: 
+        10px 0px 8px -15px rgb(101, 136, 122);
+    z-index:10;
+    border-top: 1 solid;
+    
+}
+.form-day{
+    grid-area: form-d;
+    margin: 20px auto 0;
+    z-index:20;
+    border-bottom: 2 solid darkgreen;
+
+}
+.form-day *{
+    display: inline;
+}
+.form-day select{
+    width: 100px;
+    text-indent: 5px;
+}
+/* .new-loc{
+    margin-left: 10px;
+} */
+.new-loc label{
+    color: rgb(10, 109, 92);
+    display: block;
+    margin-top: 5px;
+    text-align: left;
+}
+.map-block{
+    grid-area: map;
+    
+}
+#map{
+    height: calc(100vh - 70px);
+}
+#autocomplete{
+    height: 25px;
+    width: 285px;
+    display: block;
+    z-index:30 !important;
+}
+.pac-container{
+    z-index:30 !important;
+
+}
+
+.loc-grid{
+    width:95%;
+    border-radius: 3px;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 90px 270px 35px;
+    grid-template-areas:
+    " a name up "
+    " l name d ";
+    padding: 5px;
+
+    margin:5px;
+    margin-left:0;
+    box-shadow: 1px 1px 3px rgb(44, 138, 99), 0 1px 2px rgb(44, 138, 99);
+    
+    
+}
+.loc-grid-edit{
+    width:95%;
+    border-radius: 3px;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 35px 80px 265px 30px;
+    grid-template-areas:
+    " up a name e "
+    " d l name del ";
+    padding: 5px;
+    margin-bottom:5px;
+    box-shadow:  1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        
+}
+.l-arrive{
+    text-align:left;
+    align-self: center;
+    font-size: 14px;
+    grid-area: a;
+    
+}
+.l-leave{
+    text-align:left;
+    align-self: center;
+    font-size: 14px;
+    grid-area: l;
+
+}
+.btn-up, .btn-down{
+    width: 20px;
+    justify-self: auto;
+
+}
+.btn-up{
+    grid-area: up;
+
+}
+.btn-down{
+    grid-area: d;
+
+}
+.l-name{
+    text-align: left;
+    align-self: center;
+    color: rgb(10, 109, 92);
+    font-weight: 600;
+    grid-area: name;
+    margin-left: 10px;
+
+}
+.l-edit{
+    grid-area: e;
+    width: 20px;
+
+}
+.l-del{
+    grid-area: del;
+    width: 20px;
+
+}
+.new-day{
+    padding-left: 20px;
+
+}
+.edit-trip{
+    display: grid;
+    justify-self: center;
+    margin-left: 10vw;
+    grid-template-columns: 30vw 60vw;
+    grid-template-rows: 1fr;
+    grid-template-areas:  
+        " form days ";
+}
+.edit-trip-form{
+    grid-area: form;
+    max-width: 100%;
+    border-right: 1px solid green;
+    padding-right: 100px;
+    
+}
+.edit-trip-form label{
+    color: rgb(10, 109, 92);
+}
+.edit-trip-days{
+    grid-area: days;
+    padding-left: 100px;
+}
+.edit-trip-days li{
+    margin-top:20px;
+}
+.edit-trip-days h2{
+    margin-bottom: 20px;
+}
+.page-title{
+    text-align: center;
+    margin-bottom: 40px;
+
+}
+.edit-day{
+    display: grid;
+    justify-self: center;
+    margin-left: 20vw;
+    grid-template-columns: 30vw 40vw;
+    grid-template-rows: 1fr;
+    grid-template-areas:  
+        " form info ";
+
+
+}
+.edit-day-info{
+    grid-area: info;
+    text-align: center;
+}
+.edit-day-info h3{
+    margin-top: 20px;
+    color: rgb(47, 201, 180);
+}
+.edit-day-info h4{
+    color: rgb(10, 109, 92);
+}
+.edit-day-form{
+    grid-area: form;
+    margin-right: 10px;
+    border-right: 1px solid green;
+}
+.edit-day-form label{
+    display: block;
+    max-width: 100%;
+}
+.my-page{
+    display:grid;
+    grid-template-columns: 300px 1fr;
+    grid-template-rows: 50px 1fr 50px 1fr;
+    grid-template-areas: 
+    " title title "
+    " info trips "
+    " info past "
+    " info trips-p "
+}
+.user-title{
+    grid-area: title;
+    text-align: center;
+    font-size: 28px;
+    margin-top: 10px;
+    
+}
+.user_info{
+    grid-area: info;
+    
+}
+.flex-trips{
+    grid-area: trips;
+}
+.flex-trips-past{
+    grid-area: trips-p;
+}
+.flex-trips-past{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    text-align: center;
+    width:60vw;
+    margin:0px auto 0;
+
+}
+.flex-trips{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    text-align: center;
+    width:60vw;
+    margin:0px auto 0;
+    
+}
+.flex-trips i, .flex-trips-past i{
+    margin-bottom: 10px;
+}
+.flex-trips h3, .flex-trips-past h3{
+    margin-top: 20px;
+}
+.mytrips, .mytrips-past{
+    width: 250px;
+    height: 260px;
+    padding: 10px;
+    margin: 10px;
+    background-color: rgb(235, 235, 235);
+    box-shadow:  1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    
+    border-radius: 10px;
+}
+.past{
+    grid-area: past;
+    text-indent: 100px;
+    margin-top: 20px;
+}
+.new-trip-icon{
+    text-align: center;
+    height: 230px;
+    width: 250px;
+    padding: 40px 10px 0px;
+    margin: 10px;
+    background-color: rgb(235, 235, 235);
+    box-shadow:  1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    
+    border-radius: 10px;
+}
+.new-trip-icon a{
+    color: rgb(168, 168, 168);
+
+}
+
+@keyframes bounce {
+	0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+	40% {transform: translateY(-30px);}
+	60% {transform: translateY(-15px);}
+}

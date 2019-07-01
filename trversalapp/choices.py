@@ -22,3 +22,11 @@ min_choices = [
     ("45", '45 minutes'),
 
 ]
+
+travel_choices = [
+    ("DRIVING", "Driving"),
+      ("WALKING", "Walking"),
+      ("BICYCLING", "Bicycling"),
+      ("TRANSIT", "Transit"),
+
+]

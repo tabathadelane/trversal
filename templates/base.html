@@ -4,15 +4,44 @@
 <html>
     <head>
       <link rel="shortcut icon" href="{%  static 'favicon.ico' %}">
+       <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+      <link rel="stylesheet" href="{% static 'style.css' %}">
+
       {% block head %}
       {% endblock %}
     </head>
     <body>
-      <h1>TRVERSAL</h1>
-      <p><a href="">My Trips</a></p>
-      <p><a href="">Logout</a></p>
-      {% block body %}
-      {% endblock %}
+      <div class="container">
+        <div class="header">
+          {% if user.is_authenticated %}
+            <div class="user">Welcome back, {{ user.username }}!</a><br>
+            <a href="{% url 'users:mytrip_list' user %}">My Trips</a>
+            
+            </div>
+            <div class="login"><a href="{% url 'logout' %}">Logout</a><br>
+            {% now "l M d h:i A" %}
+            </div>
+          {% else %}
+            <div class="user">Welcome!</a></div>
+            <div class="login"><a href="{% url 'login' %}">Login</a><br>
+            {% now "l M d h:i A" %}
+            </div>
+          {% endif %}
+          <div class="logo">
+            <a class="home" href="{% url 'trversal:home' %}">
+            <p class="title">TRVERSAL</p>
+            <img class="logo-img" src="{% static 'logo-192x192-w.png' %}">
+            </a>
+          </div>
+        </div>
+        <div class="content">
+          {% block body %}
+          {% endblock %}
+        </div>
+      </div>
     </body>
       {% block js %}
       {% endblock %}

@@ -1,6 +1,9 @@
 from django.db import models
-
 from django.urls import reverse, reverse_lazy
+
+from datetime import datetime as dt
+
+
 
 from . import choices
 
@@ -14,13 +17,20 @@ class Trip(models.Model):
         return self.name
     
     def get_absolute_url(self):
-        return reverse('trversal:view-trip', args=[str(self.id)])
+        return reverse('trversal:edit-trip', args=[str(self.id)])
+
+    @property
+    def past_trip(self):
+        # return self.start_day > dt.today()
+        return dt.strptime(str(self.start_day), "%Y-%m-%d") < dt.today()
+
 
 class Day(models.Model):
     start_time = models.TimeField(max_length=20,default="9:00 AM")
     day_order = models.IntegerField(default=1)
     day_date = models.DateField(null=True, blank=True)
     trip_name = models.ForeignKey("Trip", related_name="days", on_delete=models.CASCADE)
+    mode = models.CharField(max_length=20,choices=choices.travel_choices,default="DRIVING")
 
     
 
@@ -28,13 +38,16 @@ class Day(models.Model):
         return (f'Day {self.day_order}')
 
     def get_absolute_url(self):
-        return reverse('trversal:view-day', args=[str(self.id)])
+        return reverse('trversal:view-trip', args=[str(self.trip_name.pk)])
+        # return reverse('trversal:view-day', args=[str(self.id)])
 
 class Location(models.Model):
-    g_name = models.TextField(default=" ")
+    g_name = models.TextField(max_length=250,default=" ")
+    g_lat = models.FloatField(null=True, blank=True)
+    g_lng= models.FloatField(null=True, blank=True)
     name = models.TextField(default=" ")
-    duration_hour = models.CharField(max_length=20,choices=choices.hour_choices,default=0)
-    duration_min = models.CharField(max_length=20,choices=choices.min_choices,default=0)
+    duration_hour = models.CharField(max_length=20,choices=choices.hour_choices,default="1")
+    duration_min = models.CharField(max_length=20,choices=choices.min_choices,default="15")
     route_time = models.TextField(null=True, blank=True)
     time_arr = models.TextField(null=True, blank=True)
     time_leave = models.TextField(null=True, blank=True)
@@ -50,6 +63,8 @@ class Location(models.Model):
 
     def get_absolute_url(self):
         return reverse('trversal:view-loc', args=[str(self.id)])
+
+    
 
     
     # def delete(self, request, *args, **kwargs):

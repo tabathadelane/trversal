@@ -1,9 +1,14 @@
 {% extends 'base.html' %}
 
 {% block body %}
-  <form class="new-day" action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button class="new-day-btn" type="submit" value="Add">Add</button>
-  </form>
+<div class=" new-day">
+
+    <h1> Start planning a new day:</h1>
+    <form class="new-day" action="" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      {{form.duration_hour.label|linebreaksbr}}
+      <button class="btn" type="submit" value="Add">Add</button>
+    </form>
+  </div>
 {% endblock %}

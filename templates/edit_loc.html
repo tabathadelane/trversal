@@ -1,10 +1,37 @@
 {% extends 'base.html' %}
 
+{% block head %}
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDs27HLOoV6keN4f7cGfspYlJc5HSdEl78&libraries=places"></script>
+{% endblock %}
+
+
 {% block body %}
+{% if user == location.day.trip_name.creator %}
+
 <h1>Edit Location</h1>
   <form action="" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Update">
   </form>
+  <a href="{% url 'trversal:view-day' location.day.pk %}"><button class="btn">Back to Day</button></a>
+  <a href="{% url 'trversal:del-loc' location.pk %}"><button class="btn">Delete Location</button></a>
+
+{% else %}
+<h1 class="page-title">This is not your Trip<br>Please login. </h1>
+
+{% endif %}
+
+{% block js %}
+  <script>
+  function init() {
+      var input = document.getElementById('autocomplete');
+      var autocomplete = new google.maps.places.Autocomplete(input);
+  }
+
+  google.maps.event.addDomListener(window, 'load', init);
+</script>
+{% endblock %}
+
+
 {% endblock %}

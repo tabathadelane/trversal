@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'rest_framework',
 ]
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -112,7 +114,7 @@ REST_FRAMEWORK = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Los_Angeles'
 
 USE_I18N = True
 
@@ -129,3 +131,8 @@ TIME_INPUT_FORMATS = ('%I:%M %p',)
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+LOGIN_URL = 'trversal/login'
+
+LOGIN_REDIRECT_URL = 'trversal:home'
+LOGOUT_REDIRECT_URL = 'trversal:home'

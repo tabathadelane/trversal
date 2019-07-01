@@ -1,10 +1,31 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<h1>Edit Day</h1>
-  <form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Update">
-  </form>
+
+{% if user == day.trip_name.creator %}
+
+<h1 class="page-title">{{ day }} of your {{day.trip_name.name}} Trip</h1>
+  <div class="edit-day">
+    <div class="edit-day-form">
+      <h3> Edit {{ day }}:</h3>
+      <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Update">
+      </form>
+      <a href="{% url 'trversal:view-day' day.pk %}"><button class="btn">Back to Day</button></a>
+      <a href="{% url 'trversal:del-day' day.pk %}"><button class="btn">Delete Day</button></a>
+    </div>
+    <div class="edit-day-info">
+      <h2>Current info:</h2>
+      <h3>{{ day.day_date|date:"l, F d " }}</h3>
+      <h3>Current Start Time:</h3>
+      <h4> {{ day.start_time }}</h4>
+      <h3> Calculate Directions in</h3>
+      <h4> {{day.mode|lower|capfirst }} Mode </h4>
+    </div>
+  </div>
+  {% else %}
+  <h1 class="page-title">This is not your Trip<br>Please login. </h1>
+  {% endif %}
 {% endblock %}

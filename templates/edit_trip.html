@@ -1,22 +1,41 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<h1>Edit Trip</h1>
-<form action="" method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" value="Update">
-</form>
-<ul>
-{% for day in trip.days.all %}
-  <li><a href="{% url 'trversal:view-day' day.pk %}"><h2>{{ day }} -- {{ day.day_date|date:"l -- F d " }}</h2></a>
-  <a href="{% url 'trversal:view-day' day.pk %}"><button>Edit</button></a>
-  <a href="{% url 'trversal:del-day' day.pk %}"><button>Delete</button></a>
-  </li>
-{% endfor %}
-  <li><a href="{% url 'trversal:new-day' trip.pk %}"><button>+Add Day</button></a></li>
-</ul>
-<a href="{% url 'trversal:view-trip' trip.pk %}"><button>Back to Trip</button></a>
-<a href="{% url 'trversal:del-trip' trip.pk %}"><button>Delete Trip</button></a>
+
+{% if user == trip.creator %}
+
+<h1 class="page-title">Your "{{ trip }}" Trip:</h1>
+<div class="edit-trip">
+  <div class="edit-trip-form">
+    <h4> Edit your trip: </h4>
+    <form action="" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="Update">
+    </form>
+    <a href="{% url 'trversal:view-trip' trip.pk %}"><button class="btn">Back to Trip</button></a>
+    <a href="{% url 'trversal:del-trip' trip.pk %}"><button class="btn">Delete Trip</button></a>
+  </div>
+  <div class="edit-trip-days">
+    <h2> Day-by-Day for "{{ trip }}":</h2>
+    <ul>
+    {% for day in trip.days.all %}
+      <li>
+        <a href="{% url 'trversal:view-day' day.pk %}">
+        <h3 class="day-2-day">{{ day }}:</h3>
+        <button class="btn-icon2"><i class="fas fa-map-marked-alt fa-lg"></i>Build Day</button></a>
+        <a href="{% url 'trversal:edit-day' day.pk %}"><button class="btn-icon2"><i class="fas fa-pencil-alt fa-lg"></i>Day Settings</button></a>
+        <a href="{% url 'trversal:del-day' day.pk %}"><button class="btn-icon2"><i class="fas fa-trash fa-lg"></i>Delete</button></a><br>
+        <h4>{{ day.day_date|date:"l, F d " }} -- {{day.mode|lower|capfirst }} Directions -- {{ day.locs.count }} Stop{{ day.locs.count|pluralize}}</h4>
+      </li>
+    {% endfor %}
+    </ul>
+    <a href="{% url 'trversal:new-day' trip.pk %}"><button class="btn">+Add Day</button></a>
+  </div>
+</div>
+
+{% else %}
+<h1 class="page-title">This is not your Trip<br>Please login. </h1>
+{% endif %}
 
 {% endblock %}

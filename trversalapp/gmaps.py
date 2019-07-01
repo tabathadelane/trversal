@@ -1,74 +1,90 @@
 import urllib.request, json
 import datetime as dt
+import requests
 import time
 from . import secrets
 
 from .models import Trip, Day, Location
-# look into UniqueConstraint in meta class in model to tell django that you can only have days and orders so that day order pairs can be unique
-
-# thistrip = Trip.objects.get(pk=1)
-# day = thistrip.days.get(pk=1)
 def time_gen(day):
     format = "%I:%M %p"
     locations = day.locs.all()
     location_list = [l.g_name for l in locations]
     if locations:
-      # hour = int(locations[0].day.start_time_hour)
-      # minute = int(locations[0].day.start_time_min)
       clock = dt.datetime.strptime(str(locations[0].day.start_time), '%H:%M:%S')
-      # clock = dt.datetime(2019, 1, 1, hour = hour, minute = minute) #9:00:00
       locations[0].route_time = 0
       locations[0].save()
 
       for l in range(len(locations)-1):
-        # print(locations[l].duration_hour)
-        origin = locations[l].g_name
-        destination = locations[l+1].g_name
-        route = gmaps_time(origin, destination)
+        o_lat = locations[l].g_lat
+        o_lng = locations[l].g_lng
+        d_lat = locations[l+1].g_lat
+        d_lng = locations[l+1].g_lng
+        mode = locations[l].day.mode
+        route = gmaps_time(o_lat, o_lng, d_lat, d_lng, mode)
         locations[l+1].route_time = route
         locations[l+1].save()
 
       for l in range (len(locations)):
         arrive = clock + dt.timedelta(seconds=locations[l].route_time)
         leave = arrive + dt.timedelta(hours =int(locations[l].duration_hour), minutes = int(locations[l].duration_min))
-        # print(arrive.strftime(format), leave.strftime(format))
         locations[l].time_arr = arrive.strftime(format)
         locations[l].time_leave = leave.strftime(format)
         locations[l].save()
         clock = leave
-        # print(clock.strftime(format))
       return location_list
     else: 
       pass
 
-def gmaps_time(origin, destination):
-# def get_route_time():
-    endpoint = 'https://maps.googleapis.com/maps/api/directions/json?'
-    api_key = secrets.api_key
+def gmaps_time(o_lat, o_lng, d_lat, d_lng, mode):
+    # GOOGLE_MAPS_API_URL = 'https://maps.googleapis.com/maps/api/directions/json?'
+    GOOGLE_MAPS_API_URL = f'https://maps.googleapis.com/maps/api/directions/json?origin={o_lat},{o_lng}&destination={d_lat},{d_lng}&mode=walking&key={secrets.api_key}'
 
-    origin = origin.replace(' ','+')
-    destination = destination.replace(' ','+')
-    # origin = "portland, or".replace(' ','+')
-    # destination = "medford, or".replace(' ','+')
+    req = requests.get(GOOGLE_MAPS_API_URL)
+    response = req.json()
 
-    nav_request = 'origin={}&destination={}&key={}'.format(origin,destination,api_key)
-    request = endpoint + nav_request
-    response = urllib.request.urlopen(request).read()
-    directions = json.loads(response)
+    seconds = response['routes'][0]['legs'][0]['duration']['value']
 
-    # time=directions['routes'][0]['legs'][0]['duration']['text']
-    seconds = directions['routes'][0]['legs'][0]['duration']['value']
-
-    # print(time)
     return seconds
 
-# time_gen(day)
 def date_setter(day):
   # format = "%a %B, %d"
   # format = "%Y-%m-%d"
   date = dt.datetime.strptime(str(day.trip_name.start_day), "%Y-%m-%d")
   change = day.day_order - 1
   date = date + dt.timedelta(days=change)
-  # day.day_date = date.strftime(format)
   day.day_date = date
   day.save()
+
+def geocode(day):
+  locations = day.locs.all()
+  if locations:
+    for i in range (len(locations)):
+      GOOGLE_MAPS_API_URL = 'https://maps.googleapis.com/maps/api/geocode/json'
+
+      params = {
+          'address' : locations[i].g_name,
+          'key': secrets.api_key
+      }
+
+      req = requests.get(GOOGLE_MAPS_API_URL, params=params)
+      response = req.json()
+      locations[i].g_lat = response['results'][0]['geometry']['location']['lat']
+      locations[i].g_lng = response['results'][0]['geometry']['location']['lng']
+      locations[i].save()
+
+def reorder_locs(day):
+  counter = 1
+  for loc in day.locs.all():
+    loc.order = counter
+    counter+=1
+    loc.save()
+    
+def reorder_days(trip):
+  counter = 1
+  for day in trip.days.all():
+    date_setter(day)
+    day.day_order = counter    
+    counter+=1
+    day.save()
+
+

@@ -1,51 +1,73 @@
 {% extends 'base.html' %}
 
 {% block head %}
-      <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDs27HLOoV6keN4f7cGfspYlJc5HSdEl78&libraries=places"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDs27HLOoV6keN4f7cGfspYlJc5HSdEl78&libraries=places"></script>
 {% endblock %}
+
 {% block body %}
-  <div id="trip-name">{{ day.trip_name.name }}
-  </div>
-  <div id="map" style="height:400px"></div>
+    <div class="day">
+      <div class="map-block">
+      <div id="map" ></div>
+      </div>
+      <div class="day-title">
+        <div id="trip-name">{{ day.trip_name.name }} - {{ day }}</div>
+        <div class="day-date">{{ day.day_date|date:"l, F d " }}</div>
 
-  <div id="hidden-trip">{{ day.trip_name.pk }}</div>
-  <div id="hiddenDay">{{ day.day_order }}</div>
+        <div id="hidden-trip">{{ day.trip_name.pk }} </div>
+        <div id="hiddenDay">{{ day.day_order }}</div>
+      </div>
+      <div class="panel-day">
 
-  <div id="app">
-    <div id="trip-date">[[ day.day_date ]]
+        <div id="app">
+          <div id="loc-panel">
+            <ol id="loc">
+              <div class="loc-grid-edit" v-for="(l, i) in day.locs">
+                  {% if user == day.trip_name.creator %}
+                  <div class="btn-up"><button class="btn-icon" v-on:click="up(l, l.pk, day.locs[i-1])"><i class="fas fa-caret-up fa-lg"></i></button></div>
+                  <div class="btn-down"><button class="btn-icon" v-on:click="down(l, l.pk, day.locs[i+1])"><i class="fas fa-caret-down fa-lg"></i></button></div>
+                  {% endif %}
+
+                  <div class="l-arrive">[[ l.time_arr ]]</div>
+                  <div class="l-leave">[[ l.time_leave ]]</div>
+                  <div class="l-name">
+                  <li>
+                  <i v-on:click="directions(l, day.locs[i-1])" class="fas fa-directions fa-lg"></i>
+                  [[ l.name ]]
+                  </li>
+                  </div>
+
+                  {% if user == day.trip_name.creator %}
+                  <div class="l-edit"><a v-bind:href="'http://localhost:8000/trversal/'+l.pk+'/loc/edit'"><button class="btn-icon2"><i class="fas fa-pencil-alt fa-lg"></i></button></a></div>
+                  <div class="l-del"><a v-bind:href="'http://localhost:8000/trversal/'+l.pk+'/loc/del'"><button class="btn-icon2"><i class="fas fa-trash fa-lg"></i></button></a></div>
+                  {% endif %}
+              </div>
+            </ol>
+          </div>
+        </div>
+        <a href="{% url 'trversal:view-trip' day.trip_name.pk %}"><button class="btn2">View Trip</button></a>
+        <a href="{% url 'trversal:edit-trip' day.trip_name.pk %}"><button class="btn2">Trip Settings</button></a>
+      </div>
+
+      {% if user == day.trip_name.creator %}
+      <div class="form-day">
+        {% block form %}
+        {% endblock %}
+      </div>
+      {% endif %}
     </div>
-    <div id="loc-panel">
-      <ul id="loc">
-        <li v-for="(l, i) in day.locs">
-            [[ l.name ]] [[ l.time_arr ]] -- [[ l.time_leave ]]
-            <button v-on:click="up(l, l.pk, day.locs[i-1])">Up</button>
-            <button v-on:click="down(l, l.pk, day.locs[i+1])">Down</button>
-            <a v-bind:href="'http://localhost:8000/trversal/'+l.pk+'/loc/edit'"><button>edit</button></a>
-            <a v-bind:href="'http://localhost:8000/trversal/'+l.pk+'/loc/del'"><button>delete</button></a>
-
-        </li>
-      </ul>
-      <a href="{% url 'trversal:del-day' day.pk %}"><button>Delete Trip</button></a><a href="{% url 'trversal:view-trip' day.trip_name.pk %}"><button>Back to Trip</button></a>
-
-    </div>
-  </div>
-  {% block form %}
-  {% endblock %}
+ 
 {% endblock %}
 {% block js %}
 
 <script src="https://unpkg.com/vue"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDs27HLOoV6keN4f7cGfspYlJc5HSdEl78&markers=icon:static/favicon.ico"></script>
-
 <script>
-
   function init() {
       var input = document.getElementById('autocomplete');
       var autocomplete = new google.maps.places.Autocomplete(input);
   }
-
   google.maps.event.addDomListener(window, 'load', init);
-
+</script>
+<script>
   let tripPk = document.getElementById("hidden-trip").innerText
   let dayPk = document.getElementById("hiddenDay").innerText
   function getCookie(name) {
@@ -67,13 +89,17 @@
   var directionsService;
   var directionsDisplay;
   var markers = [];
+  function init() {
+      var input = document.getElementById('autocomplete');
+      var autocomplete = new google.maps.places.Autocomplete(input);
+  }
   function initMap() {
     directionsService = new google.maps.DirectionsService();
-    directionsDisplay = new google.maps.DirectionsRenderer({map: map, });
+    directionsDisplay = new google.maps.DirectionsRenderer({map: map});
     var chicago = new google.maps.LatLng(41.850033, -87.6500523);
     var mapOptions = {
-      zoom:7,
-      center: chicago
+      zoom:2,
+      center: { lat: 51.5074, lng: 0.1278}
     }
     var map = new google.maps.Map(document.getElementById('map'), mapOptions);
     directionsDisplay.setMap(map);
@@ -82,15 +108,16 @@
 
   function calcRoute(day) {
     let locsArr = [];
-    let waypts = []
+    let waypts = [];
     var i;
     for (i = 0; i < day.locs.length; i++){
-      locsArr.push(day.locs[i].g_name)
-      console.log(day.locs[i].g_name)
+      locsArr.push({lat: day.locs[i].g_lat, lng: day.locs[i].g_lng});
     }
+    const markerArr = locsArr;
     
     var start = locsArr.shift();
     var end = locsArr.pop();
+    
     for (i = 0; i < locsArr.length; i++){
         waypts.push({location: locsArr[i], stopover: true})
     }
@@ -98,25 +125,29 @@
     var request = {
       origin: start,
       destination: end,
-      travelMode: 'DRIVING',
+      travelMode: day.mode,
       waypoints: waypts,
     };
-    console.log(JSON.parse(JSON.stringify(app.day)))
     directionsService.route(request, function(result, status) {
       if (status == 'OK') {
         directionsDisplay.setDirections(result);
-        for (var i = 0; i < waypts.length; i++) {
-          markers.push(new google.maps.Marker({
-            animation: google.maps.Animation.DROP,
-            position: waypts[i].location,
-            map: map,
-            icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
-            }));
-        }
+      }});
+      {% comment %}
+    for ( i = 0; i <= markerArr.length; i++) {
+      var marker = new google.maps.Marker({
+        animation: google.maps.Animation.DROP,
+        position: markerArr[i],
+        icon: "http://maps.google.com/mapfiles/kml/paddle/ltblu-blank.png",
+        map: map,
+        });
+        marker.setMap(map);
+    }
     
+      {% endcomment %}
       }
-      })
-  };
+    
+        {% comment %} icon: "https://drive.google.com/uc?export=view&id=1rMCetSClvzkGNvdr8Yjt2VKBRfBmNcRV" {% endcomment %}
+  
 
   
   let app = new Vue({
@@ -136,6 +167,8 @@
           "day": l.day,
           "name": l.name,
           "g_name": l.g_name,
+          "g_lat": l.g_lat,
+          "g_lng": l.g_lng,
           "time_arr": l.time_arr,
           "time_leave": l.time_leave,
           "url": l.url
@@ -145,14 +178,15 @@
           "order": (m.order + 1),
           "day": m.day,
           "name": m.name,
-          "g_name": l.g_name,
+          "g_name": m.g_name,
+          "g_lat": m.g_lat,
+          "g_lng": m.g_lng,
           "time_arr": m.time_arr,
           "time_leave": m.time_leave,
           "url": m.url
         }
         
         var csrftoken = getCookie('csrftoken');
-        console.log(loc2)
         fetch(`http://localhost:8000/api/locs/${l.pk}/`, {
           method: "PUT",
           headers: {
@@ -175,7 +209,10 @@
         .then(x => 
         fetch(`http://localhost:8000/api/recalc/days/${l.day}/?format=json`)
         .then((response) => response.json())
-        .then((response) => this.day = response)
+        .then((response) =>{
+          this.day = response;
+        })
+          
         .then((response) => calcRoute(this.day))
         )
       }, 
@@ -185,6 +222,9 @@
           "order": (l.order + 1),
           "day": l.day,
           "name": l.name,
+          "g_name": l.g_name,
+          "g_lat": l.g_lat,
+          "g_lng": l.g_lng,
           "time_arr": l.time_arr,
           "time_leave": l.time_leave,
           "url": l.url
@@ -194,6 +234,9 @@
           "order": (m.order - 1),
           "day": m.day,
           "name": m.name,
+          "g_name": m.g_name,
+          "g_lat": m.g_lat,
+          "g_lng": m.g_lng,
           "time_arr": m.time_arr,
           "time_leave": m.time_leave,
           "url": m.url
@@ -227,6 +270,9 @@
     
         )
       },
+      directions: function(l, m){
+        window.open(`https://www.google.com/maps/dir/?api=1&origin=${l.g_lat},${l.g_lng}&destination=${m.g_lat},${m.g_lng}`);
+      }
     },
     mounted: function(){
       fetch(`http://localhost:8000/api/trips/${tripPk}/?format=json`)
@@ -234,15 +280,14 @@
       .then((response) =>{
         this.trip = response;
         let dayPk = document.getElementById("hiddenDay").innerText;
-        dayPk--
-        console.log(dayPk);
 
-        this.day = response.days[dayPk]
+        this.day = response.days[dayPk-1]
         ;
         return response;
       })
       .then(response => {
         initMap();
+        init();
         calcRoute(this.day);
       })
     }

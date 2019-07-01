@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+    <div class="my-page">
+        <div class="user-title"><h4>{{ user_page }}'s Travels:</h4></div>
+        <div class="user-info">
+            <p class="new-trip-icon"><a href="{% url 'trversal:new-trip' %}"><i class="fas fa-map fa-10x"></i><br><i class="fas fa-plus"></i> Plan New Trip</a></p>
+            <p> Date joined: {{ user_page.date_joined }}</p>
+            <p> {{ user_page.first_name }} {{ user_page.last_name }}
+
+            {% if user == user_page %}
+            <a href="{% url 'password_change' %}" ><i class="fas fa-key"></i> Change Password</a><br>
+            <a href="{% url 'users:edit-user' user %}"><i class="fas fa-user-edit"></i> Edit My Info</a>
+            {% endif %}
+
+        </div>
+        <div class="flex-trips">
+
+            {% for trip in trip_list %}
+
+                {% if trip.past_trip == False %}
+                <div class="mytrips">
+                <a href="{% url 'trversal:view-trip' trip.pk %}" ><i class="fas fa-map-marked-alt fa-10x"></i><br></a>
+                <h3>{{ trip }}</h3>
+                <p>{{ trip.start_day}}</p>
+                <p>{{ trip.days_num}} Day{{ trip.days_num|pluralize }}</p>
+                </div>
+                {% endif %}
+
+            {% endfor %}
+        </div>
+        <div class="past"><h3>Past Trips:</h3></div>
+        <div class="flex-trips-past">
+            
+            {% for trip in trip_list %}
+
+                {% if trip.past_trip %}
+                <div class="mytrips-past">
+                    <a href="{% url 'trversal:view-trip' trip.pk %}" ><i class="fas fa-map-marked-alt fa-10x"></i><br></a>
+                    <h3>{{ trip }}</h3>
+                    <p>{{ trip.start_day}}</p>
+                    <p>{{ trip.days_num}} Day{{ trip.days_num|pluralize }}</p>
+                </div>
+                {% endif %}
+
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
+{% block js %}
+<script>
+    const listItems = document.getElementsByClassName("flex-trips")[0].getElementsByClassName('fas fa-map-marked-alt fa-10x');
+    const colors = ["#2790D6", "#28C7E0", "#2EC9B5", "#28E094", "#27D65B", ];
+    for(var i = 0; i < listItems.length; i ++) {
+        listItems[i].style.color = colors[i%5]; 
+    }
+    const listItemsPast = document.getElementsByClassName("flex-trips-past")[0].getElementsByClassName('fas fa-map-marked-alt fa-10x');
+    const colorsPast = ["#7AA4BF", "#81BFC9", "#7BB3AB", "#81C9AB", "#7ABF8F", ];
+    for(var i = 0; i < listItemsPast.length; i ++) {
+        listItemsPast[i].style.color = colorsPast[i%5]; 
+    }
+</script>
+{% endblock %}

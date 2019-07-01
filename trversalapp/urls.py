@@ -3,7 +3,9 @@ from . import views
 
 app_name = 'trversal' 
 urlpatterns = [
-    path('', views.IndexListView.as_view(), name='index'),
+    path('', views.home, name='home'),
+
+    path('index', views.IndexListView.as_view(), name='index'),
     path('new_trip/', views.TripCreateView.as_view(), name='new-trip'),
     path('<int:pk>/trip/', views.TripDetailView.as_view(), name='view-trip'),
     path('<int:pk>/trip/del', views.TripDeleteView.as_view(), name='del-trip'),

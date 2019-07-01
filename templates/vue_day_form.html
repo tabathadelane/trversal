@@ -4,7 +4,7 @@
   <form class="new-loc" action="{% url 'trversal:new-loc' day.pk  %}" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button class="new-loc-btn" type="submit" value="Add">Add</button>
+    <button class="btn2" type="submit" value="Add">Add</button>
   </form>
 {% endblock %}
  

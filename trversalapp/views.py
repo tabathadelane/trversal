@@ -8,6 +8,10 @@ from .models import Day, Trip, Location
 from forms import forms
 from . import gmaps
 
+def home(request):
+	return render(request, 'landing.html')
+
+
 class IndexListView(ListView):
     model = Trip
     template_name = "index.html"
@@ -31,15 +35,33 @@ class TripUpdateView(UpdateView):
     template_name = 'edit_trip.html'
     form_class= forms.NewTripForm
 
+    def get_object(self):
+        trip = super().get_object()
+        num = trip.days.count()
+        trip.days_num = num
+        trip.save()
+        gmaps.reorder_days(trip)
+        return trip
+
 class TripDetailView(DetailView):
     model = Trip
     # template_name = 'view_trip.html'
     template_name = 'vue_trip.html'
 
+
+    # def get_object(self):
+    #     trip = super().get_object()
+    #     num = trip.days.count()
+    #     trip.days_num = num
+    #     trip.save()
+    #     gmaps.reorder_days(trip)
+    #     return trip
+
+
 class TripDeleteView(DeleteView):
     model = Trip
     template_name = 'del_trip.html'
-    success_url = reverse_lazy('trversal:view-day')
+    success_url = reverse_lazy('trversal:index')
 
 class DayCreateView(CreateView):
     model = Day
@@ -48,6 +70,8 @@ class DayCreateView(CreateView):
 
     def form_valid(self, form):
         form.instance.trip_name = Trip.objects.get(pk=self.kwargs["pk"])
+        # form.instance.order = form_trip.days.count() + 1
+
         return super().form_valid(form)
 
 class DayUpdateView(UpdateView):
@@ -67,9 +91,12 @@ class DayDetailView(DetailView):
 
     def get_object(self):
         day = super().get_object()
+        gmaps.reorder_locs(day)
+        gmaps.geocode(day)
         gmaps.date_setter(day)
         gmaps.time_gen(day)
         return day
+
 
         # axios vs fetch (vue-too) , send ajax w django
         # build a url with template syntax
@@ -84,23 +111,20 @@ class DayDetailView(DetailView):
 class DayDeleteView(DeleteView):
     model = Day
     template_name = 'del_day.html'
-    success_url = reverse_lazy('trversal:view-trip')
 
+    def get_success_url(self, **kwargs):
+            return reverse_lazy('trversal:view-trip', args=(self.object.trip_name.id,))
 class LocCreateView(CreateView):
     model = Location
     template_name = 'new_loc.html'
     form_class= forms.NewLocForm
 
     def get_success_url(self):
-
       return reverse_lazy('trversal:view-day', args=(self.kwargs["pk"],))
-
-
 
     def form_valid(self, form):
         form_day = Day.objects.get(pk=self.kwargs["pk"])
         form.instance.day = form_day
-        # form.instance.day = Day.objects.get(pk=self.kwargs["pk"])
         form.instance.name = form.instance.g_name.split(",")[0]
         form.instance.order = form_day.locs.count() + 1
         return super().form_valid(form)
@@ -110,6 +134,13 @@ class LocUpdateView(UpdateView):
     model = Location
     template_name = 'edit_loc.html'
     form_class= forms.NewLocForm
+
+    def get_success_url(self):
+      return reverse_lazy('trversal:view-day', args=(self.object.day.pk,))
+
+    def form_valid(self, form):
+        form.instance.name = form.instance.g_name.split(",")[0]
+        return super().form_valid(form)
 
 class LocDetailView(DetailView):
     model = Location
