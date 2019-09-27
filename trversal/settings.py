@@ -25,8 +25,7 @@ SECRET_KEY = ')&7&4yh+(v34ea$ad*)(w$%11)@=j8q)q16sbvey+d+s!fzx7i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
-
+ALLOWED_HOSTS = ['localhost', 'trversal.pdxstudents.com', 'trversal.com']
 
 # Application definition
 
