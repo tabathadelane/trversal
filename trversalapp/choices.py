@@ -27,6 +27,5 @@ travel_choices = [
     ("DRIVING", "Driving"),
       ("WALKING", "Walking"),
       ("BICYCLING", "Bicycling"),
-      ("TRANSIT", "Transit"),
 
 ]

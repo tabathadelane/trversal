@@ -29,7 +29,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('trversal/user/', include('users.urls')),
-    path('trversal/', include('trversalapp.urls')),
+    path('', include('trversalapp.urls')),
     path('api/recalc/days/<int:pk>/', views.ReCalcDay.as_view()),
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
