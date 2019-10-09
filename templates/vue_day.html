@@ -38,8 +38,8 @@
                   </div>
 
                   {% if user == day.trip_name.creator %}
-                  <div class="l-edit"><a v-bind:href="'http://localhost:8000/trversal/'+l.pk+'/loc/edit'"><button class="btn-icon2"><i class="fas fa-pencil-alt fa-lg"></i></button></a></div>
-                  <div class="l-del"><a v-bind:href="'http://localhost:8000/trversal/'+l.pk+'/loc/del'"><button class="btn-icon2"><i class="fas fa-trash fa-lg"></i></button></a></div>
+                  <div class="l-edit"><a v-bind:href="'http://${domain}/trversal/'+l.pk+'/loc/edit'"><button class="btn-icon2"><i class="fas fa-pencil-alt fa-lg"></i></button></a></div>
+                  <div class="l-del"><a v-bind:href="'http://${domain}/trversal/'+l.pk+'/loc/del'"><button class="btn-icon2"><i class="fas fa-trash fa-lg"></i></button></a></div>
                   {% endif %}
               </div>
             </ol>
@@ -188,7 +188,10 @@
         }
         
         var csrftoken = getCookie('csrftoken');
-        fetch(`http://localhost:8000/api/locs/${l.pk}/`, {
+        var domain = "localhost:8000"
+        {% comment %} www.trversal.com for deployment {% endcomment %}
+        
+        fetch(`http://${domain}/api/locs/${l.pk}/`, {
           method: "PUT",
           headers: {
             'Content-Type': 'application/json',
@@ -198,7 +201,7 @@
 
         })
         .then(x => 
-        fetch(`http://localhost:8000/api/locs/${m.pk}/`, {
+        fetch(`http://${domain}/api/locs/${m.pk}/`, {
           method: "PUT",
           headers: {
             'Content-Type': 'application/json',
@@ -208,7 +211,7 @@
         })
         )
         .then(x => 
-        fetch(`http://localhost:8000/api/recalc/days/${l.day}/?format=json`)
+        fetch(`http://${domain}/api/recalc/days/${l.day}/?format=json`)
         .then((response) => response.json())
         .then((response) =>{
           this.day = response;
@@ -244,7 +247,7 @@
         }
         
         var csrftoken = getCookie('csrftoken');
-        fetch(`http://localhost:8000/api/locs/${l.pk}/`, {
+        fetch(`http://${domain}/api/locs/${l.pk}/`, {
           method: "PUT",
           headers: {
             'Content-Type': 'application/json',
@@ -254,7 +257,7 @@
 
         })
         .then(x => 
-        fetch(`http://localhost:8000/api/locs/${m.pk}/`, {
+        fetch(`http://${domain}/api/locs/${m.pk}/`, {
           method: "PUT",
           headers: {
             'Content-Type': 'application/json',
@@ -264,7 +267,7 @@
         })
         )
         .then(x => 
-        fetch(`http://localhost:8000/api/recalc/days/${l.day}/?format=json`)
+        fetch(`http://${domain}/api/recalc/days/${l.day}/?format=json`)
         .then((response) => response.json())
         .then((response) => this.day = response)
         .then((response) => calcRoute(this.day))
@@ -276,7 +279,7 @@
       }
     },
     mounted: function(){
-      fetch(`http://localhost:8000/api/trips/${tripPk}/?format=json`)
+      fetch(`http://${domain}/api/trips/${tripPk}/?format=json`)
       .then((response) => response.json())
       .then((response) =>{
         this.trip = response;

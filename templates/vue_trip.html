@@ -172,9 +172,12 @@
         }
         
         var csrftoken = getCookie('csrftoken');
+        var domain = "localhost:8000"
+        {% comment %} www.trversal.com for deployment {% endcomment %}
+
         console.log(loc1)
         console.log(loc2)
-        fetch(`http://localhost:8000/api/locs/${l.pk}/`, {
+        fetch(`http://${domain}/api/locs/${l.pk}/`, {
           method: "PUT",
           headers: {
             'Content-Type': 'application/json',
@@ -184,7 +187,7 @@
 
         })
         .then(x => 
-        fetch(`http://localhost:8000/api/locs/${m.pk}/`, {
+        fetch(`http://${domain}/api/locs/${m.pk}/`, {
           method: "PUT",
           headers: {
             'Content-Type': 'application/json',
@@ -194,7 +197,7 @@
         })
         )
         .then(x => 
-        fetch(`http://localhost:8000/api/recalc/days/${l.day}/?format=json`)
+        fetch(`http://${domain}/api/recalc/days/${l.day}/?format=json`)
         .then((response) => response.json())
         .then((response) => this.day = response)
         .then((response) => calcRoute(this.day))
@@ -227,7 +230,7 @@
         }
         
         var csrftoken = getCookie('csrftoken');
-        fetch(`http://localhost:8000/api/locs/${l.pk}/`, {
+        fetch(`http://${domain}/api/locs/${l.pk}/`, {
           method: "PUT",
           headers: {
             'Content-Type': 'application/json',
@@ -237,7 +240,7 @@
 
         })
         .then(x => 
-        fetch(`http://localhost:8000/api/locs/${m.pk}/`, {
+        fetch(`http://${domain}/api/locs/${m.pk}/`, {
           method: "PUT",
           headers: {
             'Content-Type': 'application/json',
@@ -247,7 +250,7 @@
         })
         )
         .then(x => 
-        fetch(`http://localhost:8000/api/recalc/days/${l.day}/?format=json`)
+        fetch(`http://${domain}/api/recalc/days/${l.day}/?format=json`)
         .then((response) => response.json())
         .then((response) => this.day = response)
         .then((response) => calcRoute(this.day))
@@ -258,7 +261,7 @@
         let i = this.trip.days.indexOf(day)
         if (this.trip.days.length - 1 > i)
           i++
-            fetch(`http://localhost:8000/api/trips/${tripPk}/?format=json`)              
+            fetch(`http://${domain}/api/trips/${tripPk}/?format=json`)              
             .then((response) => response.json())
             .then((response) => {
               this.trip = response;
@@ -273,7 +276,7 @@
       let i = this.trip.days.indexOf(day)
       if (i > 0)
         i--
-        fetch(`http://localhost:8000/api/trips/${tripPk}/?format=json`)              
+        fetch(`http://${domain}/api/trips/${tripPk}/?format=json`)              
         .then((response) => response.json())
         .then((response) => {
           this.trip = response;
@@ -291,7 +294,7 @@
 
     },
     mounted: function(){
-      fetch(`http://localhost:8000/api/trips/${tripPk}/?format=json`)
+      fetch(`http://${domain}/api/trips/${tripPk}/?format=json`)
       .then((response) => response.json())
       .then((response) =>{
         this.trip = response;
