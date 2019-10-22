@@ -26,7 +26,7 @@ class MyTripList(generic.ListView):
     template_name = 'my_trips.html'
 
     def get_queryset(self):
-        return Trip.objects.filter(creator__username__exact=self.kwargs['username']).order_by('start_day')
+        return Trip.objects.filter(creator__username__exact=self.kwargs['username']).order_by('date')
         # return Trip.objects.filter(creator__username__exact='admin')
 
     def get_context_data(self, **kwargs):

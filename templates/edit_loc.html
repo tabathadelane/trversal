@@ -7,7 +7,7 @@
 
 
 {% block body %}
-{% if user == location.day.trip_name.creator %}
+{% if user == location.trip.creator %}
 
 <h1>Edit Location</h1>
   <form action="" method="post">
@@ -15,7 +15,7 @@
     {{ form.as_p }}
     <input type="submit" value="Update">
   </form>
-  <a href="{% url 'trversal:view-day' location.day.pk %}"><button class="btn">Back to Day</button></a>
+  <a href="{% url 'trversal:view-trip' location.trip.pk %}"><button class="btn">Back to Trip</button></a>
   <a href="{% url 'trversal:del-loc' location.pk %}"><button class="btn">Delete Location</button></a>
 
 {% else %}

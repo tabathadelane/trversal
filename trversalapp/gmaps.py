@@ -4,13 +4,13 @@ import requests
 import time
 from . import secrets
 
-from .models import Trip, Day, Location
-def time_gen(day):
+from .models import Trip, Location
+def time_gen(trip):
     format = "%I:%M %p"
-    locations = day.locs.all()
+    locations = trip.locs.all()
     location_list = [l.g_name for l in locations]
     if locations:
-      clock = dt.datetime.strptime(str(locations[0].day.start_time), '%H:%M:%S')
+      clock = dt.datetime.strptime(str(locations[0].trip.start_time), '%H:%M:%S')
       locations[0].route_time = 0
       locations[0].save()
 
@@ -19,7 +19,7 @@ def time_gen(day):
         o_lng = locations[l].g_lng
         d_lat = locations[l+1].g_lat
         d_lng = locations[l+1].g_lng
-        mode = locations[l].day.mode
+        mode = locations[l].trip.mode
         route = gmaps_time(o_lat, o_lng, d_lat, d_lng, mode)
         locations[l+1].route_time = route
         locations[l+1].save()
@@ -46,17 +46,17 @@ def gmaps_time(o_lat, o_lng, d_lat, d_lng, mode):
 
     return seconds
 
-def date_setter(day):
-  # format = "%a %B, %d"
-  # format = "%Y-%m-%d"
-  date = dt.datetime.strptime(str(day.trip_name.start_day), "%Y-%m-%d")
-  change = day.day_order - 1
-  date = date + dt.timedelta(days=change)
-  day.day_date = date
-  day.save()
+# def date_setter(day):
+#   # format = "%a %B, %d"
+#   # format = "%Y-%m-%d"
+#   date = dt.datetime.strptime(str(day.trip_name.start_day), "%Y-%m-%d")
+#   change = day.day_order - 1
+#   date = date + dt.timedelta(days=change)
+#   day.day_date = date
+#   day.save()
 
-def geocode(day):
-  locations = day.locs.all()
+def geocode(trip):
+  locations = trip.locs.all()
   if locations:
     for i in range (len(locations)):
       GOOGLE_MAPS_API_URL = 'https://maps.googleapis.com/maps/api/geocode/json'
@@ -72,19 +72,19 @@ def geocode(day):
       locations[i].g_lng = response['results'][0]['geometry']['location']['lng']
       locations[i].save()
 
-def reorder_locs(day):
+def reorder_locs(trip):
   counter = 1
-  for loc in day.locs.all():
+  for loc in trip.locs.all():
     loc.order = counter
     counter+=1
     loc.save()
     
-def reorder_days(trip):
-  counter = 1
-  for day in trip.days.all():
-    date_setter(day)
-    day.day_order = counter    
-    counter+=1
-    day.save()
+# def reorder_days(trip):
+#   counter = 1
+#   for day in trip.days.all():
+#     date_setter(day)
+#     day.day_order = counter    
+#     counter+=1
+#     day.save()
 
 

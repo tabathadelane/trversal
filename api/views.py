@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User
 from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAuthenticated, BasePermission, SAFE_METHODS
-from api.serializers import TripSerializer, DaySerializer, LocSerializer
-from trversalapp.models import Trip, Day, Location
+from api.serializers import TripSerializer, LocSerializer
+from trversalapp.models import Trip, Location
 from trversalapp import gmaps
 
 class ReadOnly(BasePermission):
@@ -31,21 +31,21 @@ class TripViewSet(viewsets.ModelViewSet):
     queryset = Trip.objects.all()
     serializer_class = TripSerializer
 
-class DayViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsCreatorOrReadOnlyDay,)
-    queryset = Day.objects.all()
-    serializer_class = DaySerializer
+# class DayViewSet(viewsets.ModelViewSet):
+#     permission_classes = (IsCreatorOrReadOnlyDay,)
+#     queryset = Day.objects.all()
+#     serializer_class = DaySerializer
 
-class ReCalcDay(generics.RetrieveAPIView):
+class ReCalcTrip(generics.RetrieveAPIView):
   
-    queryset = Day.objects.all()
-    serializer_class = DaySerializer
+    queryset = Trip.objects.all()
+    serializer_class = TripSerializer
 
     def dispatch(self, request, *args, **kwargs):
 
-        day = Day.objects.get(pk=self.kwargs["pk"])
-        gmaps.date_setter(day)
-        gmaps.time_gen(day)
+        trip = Trip.objects.get(pk=self.kwargs["pk"])
+        # gmaps.date_setter(day)
+        gmaps.time_gen(trip)
         return super().dispatch(request, *args, **kwargs)
 
 class LocViewSet(viewsets.ModelViewSet):

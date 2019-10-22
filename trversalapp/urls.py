@@ -13,10 +13,10 @@ urlpatterns = [
 
     # path('api/trip/<int:pk>', views.tripAPIdetail, name='trip-api'),
 
-    path('<int:pk>/new_day/', views.DayCreateView.as_view(), name='new-day'),
-    path('<int:pk>/day/', views.DayDetailView.as_view(), name='view-day'),
-    path('<int:pk>/day/del', views.DayDeleteView.as_view(), name='del-day'),
-    path('<int:pk>/day/edit', views.DayUpdateView.as_view(), name='edit-day'),
+    # path('<int:pk>/new_day/', views.DayCreateView.as_view(), name='new-day'),
+    # path('<int:pk>/day/', views.DayDetailView.as_view(), name='view-day'),
+    # path('<int:pk>/day/del', views.DayDeleteView.as_view(), name='del-day'),
+    # path('<int:pk>/day/edit', views.DayUpdateView.as_view(), name='edit-day'),
 
     path('<int:pk>/new_loc/', views.LocCreateView.as_view(), name='new-loc'),
     path('<int:pk>/loc/', views.LocDetailView.as_view(), name='view-loc'),

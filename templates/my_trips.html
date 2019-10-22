@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block head %}
-  <title>{{ user_page }}' Trips</title>
+  <title>{{ user_page }}'s Trips</title>
 {% endblock %}
 
 {% block body %}
@@ -27,8 +27,8 @@
                 <div class="mytrips">
                 <a href="{% url 'trversal:view-trip' trip.pk %}" ><i class="fas fa-map-marked-alt fa-10x"></i><br></a>
                 <h3>{{ trip }}</h3>
-                <p>{{ trip.start_day}}</p>
-                <p>{{ trip.days_num}} Day{{ trip.days_num|pluralize }}</p>
+                <p>{{ trip.date}}</p>
+                {% comment %} <p>{{ trip.days_num}} Day{{ trip.days_num|pluralize }}</p> {% endcomment %}
                 </div>
                 {% endif %}
 
@@ -43,8 +43,8 @@
                 <div class="mytrips-past">
                     <a href="{% url 'trversal:view-trip' trip.pk %}" ><i class="fas fa-map-marked-alt fa-10x"></i><br></a>
                     <h3>{{ trip }}</h3>
-                    <p>{{ trip.start_day}}</p>
-                    <p>{{ trip.days_num}} Day{{ trip.days_num|pluralize }}</p>
+                    <p>{{ trip.date}}</p>
+                    {% comment %} <p>{{ trip.days_num}} Day{{ trip.days_num|pluralize }}</p> {% endcomment %}
                 </div>
                 {% endif %}
 

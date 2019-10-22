@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
-from trversalapp.models import Trip, Day, Location
+from trversalapp.models import Trip, Location
 
 
 class UserCreateForm(UserCreationForm):
@@ -28,25 +28,25 @@ class NewTripForm(forms.ModelForm):
 
     class Meta:
         model = Trip
-        fields = ["name", "start_day"]
+        fields = ["name", "date", "start_time", "mode"]
         widgets = {
-            "start_day": forms.TextInput(attrs={"type":"date"})
+            "date": forms.TextInput(attrs={"type":"date"}),
+            "start_time_hour": forms.TextInput(attrs={"type":"time"})
         }
     
     def __init__(self, *args, **kwargs):
         super(NewTripForm, self).__init__(*args, **kwargs)
         self.fields['name'].label = "Name your trip:"
-        self.fields['start_day'].label = "What day does your trip begin?"
+        self.fields['date'].label = "What day is your trip?"
 
 
-class NewDayForm(forms.ModelForm):
+# class NewDayForm(forms.ModelForm):
     
-    class Meta:
-        model = Day
-        fields = ["start_time", "mode"]
-        widgets = {
-            "start_time_hour": forms.TextInput(attrs={"type":"time"})
-        }
+#     class Meta:
+#         model = Day
+#         fields = ["start_time", "mode"]
+#         widgets = {
+#         }
 
 class NewLocForm(forms.ModelForm):
     auto_id = False 

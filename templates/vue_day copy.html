@@ -2,7 +2,7 @@
 
 {% block head %}
 <title> {{ trip }}</title>
-  <script type="text/javascript" async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDs27HLOoV6keN4f7cGfspYlJc5HSdEl78&libraries=places"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDs27HLOoV6keN4f7cGfspYlJc5HSdEl78&libraries=places"></script>
 {% endblock %}
 
 {% block body %}
@@ -37,8 +37,8 @@
                   </div>
 
                   {% if user == trip.creator %}
-                  <div class="l-edit"><a v-bind:href="'http://localhost:8000/'+l.pk+'/loc/edit'"><button class="btn-icon2"><i class="fas fa-pencil-alt fa-lg"></i></button></a></div>
-                  <div class="l-del"><a v-bind:href="'http://localhost:8000/'+l.pk+'/loc/del'"><button class="btn-icon2"><i class="fas fa-trash fa-lg"></i></button></a></div>
+                  <div class="l-edit"><a v-bind:href="'http://localhost:8000/trversal/'+l.pk+'/loc/edit'"><button class="btn-icon2"><i class="fas fa-pencil-alt fa-lg"></i></button></a></div>
+                  <div class="l-del"><a v-bind:href="'http://localhost:8000/trversal/'+l.pk+'/loc/del'"><button class="btn-icon2"><i class="fas fa-trash fa-lg"></i></button></a></div>
                   {% endif %}
               </div>
             </ol>
@@ -50,7 +50,6 @@
       {% if user == trip.creator %}
       <div class="form-day">
         {% block form %}
-
         {% endblock %}
       </div>
       {% endif %}
@@ -67,7 +66,6 @@
   }
   google.maps.event.addDomListener(window, 'load', init);
 </script>
-
 <script>
   let tripPk = document.getElementById("hidden-trip").innerText
   function getCookie(name) {
@@ -93,8 +91,6 @@
       var input = document.getElementById('autocomplete');
       var autocomplete = new google.maps.places.Autocomplete(input);
   }
- 
-
   function initMap() {
     directionsService = new google.maps.DirectionsService();
     directionsDisplay = new google.maps.DirectionsRenderer({map: map});
@@ -134,9 +130,22 @@
       if (status == 'OK') {
         directionsDisplay.setDirections(result);
       }});
-
+      {% comment %}
+    for ( i = 0; i <= markerArr.length; i++) {
+      var marker = new google.maps.Marker({
+        animation: google.maps.Animation.DROP,
+        position: markerArr[i],
+        icon: "http://maps.google.com/mapfiles/kml/paddle/ltblu-blank.png",
+        map: map,
+        });
+        marker.setMap(map);
+    }
+    
+      {% endcomment %}
       }
-
+    
+        {% comment %} icon: "https://drive.google.com/uc?export=view&id=1rMCetSClvzkGNvdr8Yjt2VKBRfBmNcRV" {% endcomment %}
+  
 
   
   let app = new Vue({
@@ -274,11 +283,10 @@
       })
       .then(response => {
         initMap();
-        calcRoute(this.trip);
         init();
+        calcRoute(this.trip);
       })
     }
   })
 </script>
-
 {% endblock %}

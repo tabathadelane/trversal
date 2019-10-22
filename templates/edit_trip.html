@@ -20,12 +20,12 @@
     <a href="{% url 'trversal:view-trip' trip.pk %}"><button class="btn">Back to Trip</button></a>
     <a href="{% url 'trversal:del-trip' trip.pk %}"><button class="btn">Delete Trip</button></a>
   </div>
-  <div class="edit-trip-days">
+  {% comment %} <div class="edit-trip-days">
     <h2> Day-by-Day for "{{ trip }}":</h2>
     <ul>
     {% for day in trip.days.all %}
       <li>
-        <a href="{% url 'trversal:view-day' day.pk %}">
+        <a href="{% url 'trversal:view-trip' day.pk %}">
         <h3 class="day-2-day">{{ day }}:</h3>
         <button class="btn-icon2"><i class="fas fa-map-marked-alt fa-lg"></i>Build Day</button></a>
         <a href="{% url 'trversal:edit-day' day.pk %}"><button class="btn-icon2"><i class="fas fa-pencil-alt fa-lg"></i>Day Settings</button></a>
@@ -35,8 +35,9 @@
     {% endfor %}
     </ul>
     <a href="{% url 'trversal:new-day' trip.pk %}"><button class="btn">+Add Day</button></a>
-  </div>
+  </div> 
 </div>
+{% endcomment %}
 
 {% else %}
 <h1 class="page-title">This is not your Trip<br>Please login. </h1>

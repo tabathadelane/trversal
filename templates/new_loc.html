@@ -2,9 +2,7 @@
 
 {% block head %}
   <title>New Locations</title>
-{% endblock %}
 
-{% block head %}
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDs27HLOoV6keN4f7cGfspYlJc5HSdEl78&libraries=places"></script>
 {% endblock %}
 {% block body %}    
@@ -13,6 +11,7 @@
     {{ form.as_p }}
     <button class="new-loc-btn" type="submit" value="Add">Add</button>
   </form>
+{% endblock %}
 {% block js %}
   <script>
     function init() {

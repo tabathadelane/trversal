@@ -21,7 +21,6 @@ from django.views.generic import TemplateView
 
 router = routers.DefaultRouter()
 router.register(r'trips', views.TripViewSet)
-router.register(r'days', views.DayViewSet)
 router.register(r'locs', views.LocViewSet)
 
 
@@ -30,7 +29,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('trversal/user/', include('users.urls')),
     path('', include('trversalapp.urls')),
-    path('api/recalc/days/<int:pk>/', views.ReCalcDay.as_view()),
+    path('api/recalc/trips/<int:pk>/', views.ReCalcTrip.as_view()),
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('test', TemplateView.as_view(template_name="api_test_js.html")),

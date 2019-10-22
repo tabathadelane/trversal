@@ -2,15 +2,15 @@
 
 {% block body %}
 <div class="location-detail">
-    <h1 class="location-name">{{ location.day.trip_name.name }}<br></h1>
-    <h2 class="location-text"><a href="">{{ location.day }}</a></h2>
-    <h2 class="location-text"><a href="">{{ location.day.start_time }}</a></h2>
+    <h1 class="location-name">{{ location.trip.name }}<br></h1>
+    <h2 class="location-text"><a href="">{{ location.trip }}</a></h2>
+    <h2 class="location-text"><a href="">{{ location.trip.start_time }}</a></h2>
     <h2 class="location-text"><a href="">{{ location.name }}</a></h2>
     <h3 class="location-text"><a href="">{{ location.time_arr }} -- {{ location.time_leave }}</a></h3>
-    <h4 class="location-time"><em>Planned by {{ location.day.trip_name.creator }}</em></h4>
+    <h4 class="location-time"><em>Planned by {{ location.trip.creator }}</em></h4>
     <p><a href="{% url 'trversal:new-loc' location.day.pk  %}">Add Location</a></p>
-    <p><a href="{% url 'trversal:view-day' location.day.pk  %}">Back to Day</a></p>
-    <p><a href="{% url 'trversal:view-trip' location.day.trip_name.pk  %}">Back to Trip</a></p>
+    {% comment %} <p><a href="{% url 'trversal:view-day' location.day.pk  %}">Back to Day</a></p> {% endcomment %}
+    <p><a href="{% url 'trversal:view-trip' location.trip.pk  %}">Back to Trip</a></p>
 
     <p><a href="{% url 'trversal:index' %}">All Trips</a></p>
 

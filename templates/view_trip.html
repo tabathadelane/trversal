@@ -10,7 +10,7 @@
     
     <h4 class="trip-time"><em>Planned by {{ trip.creator }}</em></h4>
 
-    <p><a href="{% url 'trversal:new-day' trip.pk  %}">Add New Day</a></p>
+    {% comment %} <p><a href="{% url 'trversal:new-day' trip.pk  %}">Add New Day</a></p> {% endcomment %}
     <p><a href="{% url 'trversal:index' %}">All Trips</a></p>
 
 </div>

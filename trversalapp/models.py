@@ -9,9 +9,10 @@ from . import choices
 
 class Trip(models.Model):
     name = models.CharField(max_length=100)
-    days_num = models.IntegerField(default=1)
-    start_day = models.DateField(default="2002-02-22")
+    start_time = models.TimeField(max_length=20,default="9:00 AM")
     creator = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    date = models.DateField(null=True, blank=True)
+    mode = models.CharField(max_length=20,choices=choices.travel_choices,default="DRIVING")
 
     def __str__(self):
         return self.name
@@ -22,24 +23,21 @@ class Trip(models.Model):
     @property
     def past_trip(self):
         # return self.start_day > dt.today()
-        return dt.strptime(str(self.start_day), "%Y-%m-%d") < dt.today()
+        return dt.strptime(str(self.date), "%Y-%m-%d") < dt.today()
 
 
-class Day(models.Model):
-    start_time = models.TimeField(max_length=20,default="9:00 AM")
-    day_order = models.IntegerField(default=1)
-    day_date = models.DateField(null=True, blank=True)
-    trip_name = models.ForeignKey("Trip", related_name="days", on_delete=models.CASCADE)
-    mode = models.CharField(max_length=20,choices=choices.travel_choices,default="DRIVING")
+# class Day(models.Model):
+#     day_order = models.IntegerField(default=1)
+#     trip_name = models.ForeignKey("Trip", related_name="days", on_delete=models.CASCADE)
 
     
 
-    def __str__(self):
-        return (f'Day {self.day_order}')
+#     def __str__(self):
+#         return (f'Day {self.day_order}')
 
-    def get_absolute_url(self):
-        return reverse('trversal:view-trip', args=[str(self.trip_name.pk)])
-        # return reverse('trversal:view-day', args=[str(self.id)])
+#     def get_absolute_url(self):
+#         return reverse('trversal:view-trip', args=[str(self.trip_name.pk)])
+#         # return reverse('trversal:view-day', args=[str(self.id)])
 
 class Location(models.Model):
     g_name = models.TextField(max_length=250,default=" ")
@@ -53,7 +51,7 @@ class Location(models.Model):
     time_leave = models.TextField(null=True, blank=True)
     
     order = models.IntegerField(default=1)
-    day = models.ForeignKey("Day", related_name="locs", on_delete=models.CASCADE)
+    trip = models.ForeignKey("Trip", related_name="locs", on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['order']
