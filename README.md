@@ -70,7 +70,7 @@ $ pipenv sync
 We need to create a secrets file to hook up the API key
 
 ```sh
-~/trversal
+foo@bar:~/trversal
 $ cd trversalapp
 
 ~/trversal/trversalapp
