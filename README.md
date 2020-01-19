@@ -96,5 +96,7 @@ Once signed in, to test if your API key is working properly, go to http://localh
 
 ```bash
 
+Tabatha@TABATHA-PC MINGW64 ~/Documents/projects/trversal (master)
+$ pipenv shell
 ```
 
