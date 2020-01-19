@@ -69,7 +69,7 @@ $ pipenv sync
 
 We need to create a secrets file to hook up the API key
 
-```console
+```sh
 ~/trversal
 $ cd trversalapp
 
