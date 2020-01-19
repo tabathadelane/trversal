@@ -31,7 +31,7 @@ You will need to setup an API Key for the Google services.
 
 ***
 
-### Running to App
+### Running the App
 
 This project uses virtual environments with pipenv. With pipenv installed, create the virtual environment:
 
@@ -59,7 +59,7 @@ Add the following line of code in the editor. This must be exact or Python won't
 api_key = "YOUR-KEY"
 ```
 
-if you are not serving on localhost:8000, the AJAX urls will fail. 
+If you are not serving on localhost:8000, the AJAX urls will fail. 
 ```bash
 python manage.py runserver localhost:8000
 ```
