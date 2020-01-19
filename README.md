@@ -55,21 +55,21 @@ You will need to setup an API Key for the Google services.
 
 This project uses virtual environments with pipenv. With pipenv installed, create the virtual environment:
 
-```sh
+```console
 ~/trversal
 $ pipenv shell
 ```
 
 'Sync' to install the project's dependencies:
 
-```sh
+```console
 ~/trversal
 $ pipenv sync
 ```
 
 We need to create a secrets file to hook up the API key
 
-```sh
+```console
 ~/trversal
 $ cd trversalapp
 
@@ -85,7 +85,7 @@ api_key = "YOUR-KEY"
 ```
 
 If you are not serving on localhost:8000, the AJAX urls will fail. 
-```sh
+```console
 ~/trversal/trversalapp
 $ cd ..
 
