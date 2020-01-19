@@ -49,9 +49,9 @@
 
       {% if user == trip.creator %}
       <div class="form-day">
-        {% block form %}
-
-        {% endblock %}
+        {% include "vue_day_form.html" %}
+        {% comment %} {% block autocomplete %}
+        {% endblock %} {% endcomment %}
       </div>
       {% endif %}
     </div>

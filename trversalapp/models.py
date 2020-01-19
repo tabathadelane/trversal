@@ -26,19 +26,6 @@ class Trip(models.Model):
         return dt.strptime(str(self.date), "%Y-%m-%d") < dt.today()
 
 
-# class Day(models.Model):
-#     day_order = models.IntegerField(default=1)
-#     trip_name = models.ForeignKey("Trip", related_name="days", on_delete=models.CASCADE)
-
-    
-
-#     def __str__(self):
-#         return (f'Day {self.day_order}')
-
-#     def get_absolute_url(self):
-#         return reverse('trversal:view-trip', args=[str(self.trip_name.pk)])
-#         # return reverse('trversal:view-day', args=[str(self.id)])
-
 class Location(models.Model):
     g_name = models.TextField(max_length=250,default=" ")
     g_lat = models.FloatField(null=True, blank=True)
@@ -49,7 +36,6 @@ class Location(models.Model):
     route_time = models.TextField(null=True, blank=True)
     time_arr = models.TextField(null=True, blank=True)
     time_leave = models.TextField(null=True, blank=True)
-    
     order = models.IntegerField(default=1)
     trip = models.ForeignKey("Trip", related_name="locs", on_delete=models.CASCADE)
 

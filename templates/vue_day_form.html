@@ -1,10 +1,10 @@
-{% extends 'vue_day.html' %}
+{% comment %} {% extends 'vue_day.html' %}
 
-{% block form %}
+{% block autocomplete %} {% endcomment %}
   <form class="new-loc" action="{% url 'trversal:new-loc' trip.pk %}" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button class="btn2" type="submit" value="Add">Add</button>
   </form>
-{% endblock %}
+{% comment %} {% endblock %} {% endcomment %}
  
