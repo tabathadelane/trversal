@@ -5,17 +5,18 @@ This app dynamically interacts with Google Maps to calculate the most up to date
 
 There is a demo account log-in available at the bottom of this README.
 
-#### Trversal.com v.1
+### Trversal.com v.1
 
 ![Trversal Google API's and VUE.js Demo](static/gifs/trversal-demo.gif)
 
-### Future of the Project
+## Future of the Project
 
 **v.2** will re-work the app to use the VUE CLI to build a single page application.
 
 **v.3** will bring a responsive design. This app will be the most useful on a mobile device. 
 
 ***
+
 
 # How to Download and Run Trversal:
 
