@@ -55,19 +55,19 @@ You will need to setup an API Key for the Google services.
 
 This project uses virtual environments with pipenv. With pipenv installed, create the virtual environment:
 
-```bash
+```console
 pipenv shell
 ```
 
 'Sync' to install the project's dependencies:
 
-```bash
+```console
 pipenv sync
 ```
 
 We need to create a secrets file to hook up the API key
 
-```bash
+```console
 cd trversalapp
 
 touch secrets.py
@@ -80,7 +80,7 @@ api_key = "YOUR-KEY"
 ```
 
 If you are not serving on localhost:8000, the AJAX urls will fail. 
-```bash
+```console
 python manage.py runserver localhost:8000
 ```
 
