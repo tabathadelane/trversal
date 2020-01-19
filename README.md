@@ -11,7 +11,7 @@ There is a demo account log-in available at the bottom of this README.
 
 If you would like to run trversal on your local server instead of at trversal.com, please follow this guide.  
 
--You will need a Google API key and the required Credintials listed below need to be turned on or some features will not work  
+-You will need a Google API key, and the required Credentials listed below need to be turned on or some features will not work  
 
 -terminal code snippets are Windows examples
 
