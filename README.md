@@ -56,23 +56,28 @@ You will need to setup an API Key for the Google services.
 This project uses virtual environments with pipenv. With pipenv installed, create the virtual environment:
 
 ```console
-pipenv shell
+~/trversal
+$ pipenv shell
 ```
 
 'Sync' to install the project's dependencies:
 
 ```console
-pipenv sync
+~/trversal
+$ pipenv sync
 ```
 
 We need to create a secrets file to hook up the API key
 
 ```console
-cd trversalapp
+~/trversal
+$ cd trversalapp
 
-touch secrets.py
+~/trversal/trversalapp
+$ touch secrets.py
 
-nano secrets.py
+~/trversal/trversalapp
+$ nano secrets.py
 ```
 Add the following line of code in the editor. This must be exact or Python won't find the variable. Put **_your api key_** in the quotes:
 ```python
@@ -81,7 +86,11 @@ api_key = "YOUR-KEY"
 
 If you are not serving on localhost:8000, the AJAX urls will fail. 
 ```console
-python manage.py runserver localhost:8000
+~/trversal/trversalapp
+$ cd ..
+
+~/trversal
+$ python manage.py runserver localhost:8000
 ```
 
 Go to http://localhost:8000/ in your browser.
@@ -95,8 +104,5 @@ Password: dem0Password
 Once signed in, to test if your API key is working properly, go to http://localhost:8000/trip/3/ and check to see that the map and route is displayed. 
 
 ```console
-
-Tabatha@TABATHA-PC MINGW64 ~/Documents/projects/trversal (master)
-$ pipenv shell
 ```
 
