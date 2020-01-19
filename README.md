@@ -94,7 +94,7 @@ Password: dem0Password
 
 Once signed in, to test if your API key is working properly, go to http://localhost:8000/trip/3/ and check to see that the map and route is displayed. 
 
-```bash
+```console
 
 Tabatha@TABATHA-PC MINGW64 ~/Documents/projects/trversal (master)
 $ pipenv shell
