@@ -11,7 +11,8 @@ There is a demo account log-in available at the bottom of this README.
 
 ## Future of the Project
 
-**v.2** will re-work the app to use the VUE CLI to build a single page application.
+**v.2** will re-work the app to use the VUE CLI to build a single page application.  
+- I am currently doing that <a href="https://github.com/tabathadelane/trversal-vue"> OVER HERE</a>.
 
 **v.3** will bring a responsive design. This app will be the most useful on a mobile device. 
 
